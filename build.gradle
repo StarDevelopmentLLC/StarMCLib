@@ -21,8 +21,20 @@ dependencies {
     compileOnly "com.github.cryptomorin:XSeries:9.7.0"
 }
 
+javadoc {
+    source = sourceSets.main.allJava
+    destinationDir = file("/docs")
+    options {
+        showFromPublic()
+        quiet()
+    }
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    
+    withJavadocJar()
+    withSourcesJar()
 }

@@ -15,7 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 /**
- * Used to modify objects directly
+ * This is a dev based utility that allows seeing and modifying objects directly using reflection. <br>
+ * To use this, instantiate this class and then register the command yourself. 
  */
 @SuppressWarnings("ExtractMethodRecommender")
 public class ObjectCommand<T> implements TabExecutor {

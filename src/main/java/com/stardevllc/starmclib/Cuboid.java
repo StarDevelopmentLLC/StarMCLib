@@ -379,10 +379,6 @@ public class Cuboid {
         return new Location(getWorld(), x, y, z);
     }
 
-//    public boolean contains(Location loc) {
-//        return loc.toVector().isInAABB(new Location(this.world, xMin, yMin, zMin).toVector(), new Location(this.world, xMax, yMax, zMax).toVector());
-//    }
-
     /**
      * Checks to see if this cuboid contains the coordinates
      *

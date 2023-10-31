@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.color;
 
-import com.stardevllc.starmclib.SpigotVersion;
+import com.stardevllc.starmclib.NMSVersion;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * A collection of color utilities to support adding custom color codes that can be used.
+ * A collection of color utilities to support adding custom color codes that can be used. <br>
  * Developers must use ColorUtils.color() method in order for custom color codes to be respected within this API
  */
 public final class ColorUtils {
@@ -159,7 +159,7 @@ public final class ColorUtils {
     }
     
     public static boolean isHexSupported() {
-        return SpigotVersion.CURRENT_VERSION.ordinal() >= SpigotVersion.v1_16_R1.ordinal();
+        return NMSVersion.CURRENT_VERSION.ordinal() >= NMSVersion.v1_16_R1.ordinal();
     }
     
     /**
@@ -214,7 +214,7 @@ public final class ColorUtils {
         }
 
         if (translateHex) {
-            text = translateHex(sender, text);
+            return translateHex(sender, text);
         }
 
         return text;

@@ -5,8 +5,12 @@ import org.bukkit.World;
 
 import java.util.Objects;
 
+/**
+ * Represents a position without the World aspect, which allows for syncing across servers without requiring worlds <br>
+ * Methods and constructors should be obvious, eventually proper documentation for them will exist
+ */
 public class Position {
-    protected int x, y, z;
+    protected double x, y, z;
     protected float yaw, pitch;
 
     public static Position fromLocation(Location location) {
@@ -29,16 +33,28 @@ public class Position {
         this.pitch = pitch;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-
-    public int getY() {
-        return y;
+    
+    public int getBlockX() {
+        return (int) x;
     }
 
-    public int getZ() {
+    public double getY() {
+        return y;
+    }
+    
+    public int getBlockY() {
+        return (int) y;
+    }
+
+    public double getZ() {
         return z;
+    }
+    
+    public int getBlockZ() {
+        return (int) z;
     }
 
     public float getYaw() {
@@ -49,15 +65,15 @@ public class Position {
         return pitch;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setZ(int z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
@@ -71,6 +87,10 @@ public class Position {
 
     public Location toLocation(World world) {
         return new Location(world, x, y, z, yaw, pitch);
+    }
+    
+    public Location toBlockLocation(World world) {
+        return new Location(world, getBlockX(), getBlockY(), getBlockZ());
     }
 
     public boolean equals(Object o) {

@@ -12,10 +12,9 @@ import java.util.List;
  * @param <T> The JavaPlugin owner of the thread
  */
 public abstract class StarThread<T extends JavaPlugin> extends BukkitRunnable {
-    private static final List<StarThread<?>> STAR_THREADS = new ArrayList<>();
+    private static final List<StarThread<? extends JavaPlugin>> STAR_THREADS = new ArrayList<>();
 
     protected T plugin;
-
     protected ThreadOptions threadOptions;
 
     //This is the performance metrics

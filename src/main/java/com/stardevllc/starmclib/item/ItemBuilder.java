@@ -28,6 +28,11 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * A builder for Items <br> 
+ * You can use the child classes to customize every type that has an ItemMeta <br>
+ * Note: This uses the XMaterial library to allow multi-version support
+ */
 public class ItemBuilder implements Cloneable {
     
     private static final Map<Class<? extends ItemMeta>, Class<? extends ItemBuilder>> META_TO_BUILDERS = new HashMap<>();
