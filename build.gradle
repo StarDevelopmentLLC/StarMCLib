@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -9,6 +10,16 @@ repositories {
     }
     maven {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'StarMCLib'
+
+            from components.java
+        }
     }
 }
 
