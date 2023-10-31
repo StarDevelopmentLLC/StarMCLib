@@ -1,0 +1,35 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://www.jitpack.io'
+    }
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+group 'com.stardevllc'
+version '1.0.0-SNAPSHOT'
+
+shadowJar {
+    relocate 'com.cryptomorin.xseries', 'com.stardevllc.starmclib.xseries'
+}
+
+tasks.jar.finalizedBy(shadowJar)
+
+dependencies {
+    compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT'
+    implementation("com.github.cryptomorin:XSeries:9.7.0")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
