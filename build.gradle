@@ -13,7 +13,7 @@ repositories {
 }
 
 group 'com.stardevllc'
-version '1.0.0-SNAPSHOT'
+version '1.0.1-SNAPSHOT'
 
 dependencies {
     compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-SNAPSHOT'
