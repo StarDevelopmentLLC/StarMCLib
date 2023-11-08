@@ -14,18 +14,18 @@ public class Position {
     protected float yaw, pitch;
 
     public static Position fromLocation(Location location) {
-        return new Position(location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getYaw(), location.getPitch());
+        return new Position(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
 
     public Position() {
         this(0, 0, 0);
     }
 
-    public Position(int x, int y, int z) {
+    public Position(double x, double y, double z) {
         this(x, y, z, 0, 0);
     }
 
-    public Position(int x, int y, int z, float yaw, float pitch) {
+    public Position(double x, double y, double z, float yaw, float pitch) {
         this.x = x;
         this.y = y;
         this.z = z;
