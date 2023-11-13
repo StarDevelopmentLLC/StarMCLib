@@ -10,7 +10,7 @@ class SpigotColor extends CustomColor {
         super(owner);
         this.symbol = '&';
         this.code = chatColor.getChar();
-        this.permission = "starcore.color.spigot." + chatColor.name().toLowerCase();
+        this.permission = "starmclib.color.spigot." + chatColor.name().toLowerCase();
         this.spigotColor = chatColor.asBungee();
         calculateFields();
     }
