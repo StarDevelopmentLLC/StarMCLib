@@ -3,9 +3,7 @@ package com.stardevllc.starmclib.item;
 import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.Multimap;
 import com.stardevllc.starmclib.color.ColorUtils;
-import com.stardevllc.starmclib.item.enums.ArmorMaterial;
-import com.stardevllc.starmclib.item.enums.ArmorSlot;
-import com.stardevllc.starmclib.item.enums.BookType;
+import com.stardevllc.starmclib.item.enums.*;
 import com.stardevllc.starmclib.item.material.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -418,13 +416,21 @@ public class ItemBuilder implements Cloneable {
         
         public Skull(PlayerProfile profile) {
             super.profile(profile);
+            
         }
     }
 
     public static class Stew extends StewItemBuilder {
         
     }
-
+    
+    public static class Tool extends ItemBuilder {
+        public Tool(ToolMaterial material, ToolType type) {
+            Optional<XMaterial> xMaterial = XMaterial.matchXMaterial(material.name() + "_" + type.name());
+            xMaterial.ifPresent(value -> this.material = value);
+        }
+    }
+    
     private static ItemBuilder getSubClassFromMeta(ItemMeta itemMeta, String methodName, Class<?> paramClass, Object param) {
         Class<? extends ItemBuilder> itemBuilderClass = null;
         for (Map.Entry<Class<? extends ItemMeta>, Class<? extends ItemBuilder>> entry : META_TO_BUILDERS.entrySet()) {
