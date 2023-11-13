@@ -12,15 +12,11 @@ import java.util.*;
 /**
  * This represents a cuboid with a min corner and a max corner in a world<br>
  * Most of the calculations in this class operate on integers and doubles directly and do not cache any Location objects long term.<br>
- * This class is set up to be used with the StarSQL library, without depending on it.
  */
 public class Cuboid {
-
-    protected long id;
     protected String worldName;
     protected transient World world;
     protected int xMin, yMin, zMin, xMax, yMax, zMax;
-    protected transient double xMinCentered, yMinCentered, zMinCentered, xMaxCentered, yMaxCentered, zMaxCentered;
 
     private Cuboid() {
 
@@ -39,7 +35,6 @@ public class Cuboid {
         this.xMax = Math.max(pos1.getBlockX(), pos2.getBlockX());
         this.yMax = Math.max(pos1.getBlockY(), pos2.getBlockY());
         this.zMax = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
-        calculateCenters();
     }
 
     public Cuboid(String worldName, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
@@ -50,16 +45,6 @@ public class Cuboid {
         this.xMax = xMax;
         this.yMax = yMax;
         this.zMax = zMax;
-        calculateCenters();
-    }
-
-    protected final void calculateCenters() {
-        this.xMinCentered = this.xMin + 0.5;
-        this.xMaxCentered = this.xMax + 0.5;
-        this.yMinCentered = this.yMin + 0.5;
-        this.yMaxCentered = this.yMax + 0.5;
-        this.zMinCentered = this.zMin + 0.5;
-        this.zMaxCentered = this.zMax + 0.5;
     }
 
     protected void setBounds(Location pos1, Location pos2) {
@@ -71,7 +56,6 @@ public class Cuboid {
         this.xMax = Math.max(pos1.getBlockX(), pos2.getBlockZ());
         this.yMax = Math.max(pos1.getBlockY(), pos2.getBlockY());
         this.zMax = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
-        calculateCenters();
     }
 
     protected void setBounds(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
@@ -81,7 +65,6 @@ public class Cuboid {
         this.xMax = xMax;
         this.yMax = yMax;
         this.zMax = zMax;
-        calculateCenters();
     }
 
     public void createOutline(Material material) {
@@ -129,32 +112,26 @@ public class Cuboid {
 
     protected void setXMin(int xMin) {
         this.xMin = xMin;
-        calculateCenters();
     }
 
     protected void setYMin(int yMin) {
         this.yMin = yMin;
-        calculateCenters();
     }
 
     protected void setZMin(int zMin) {
         this.zMin = zMin;
-        calculateCenters();
     }
 
     protected void setXMax(int xMax) {
         this.xMax = xMax;
-        calculateCenters();
     }
 
     protected void setYMax(int yMax) {
         this.yMax = yMax;
-        calculateCenters();
     }
 
     protected void setZMax(int zMax) {
         this.zMax = zMax;
-        calculateCenters();
     }
 
     public String getWorldName() {
@@ -186,33 +163,27 @@ public class Cuboid {
     }
 
     public double getXMinCentered() {
-        calculateCenters();
-        return xMinCentered;
+        return xMin + 0.5;
     }
 
     public double getYMinCentered() {
-        calculateCenters();
-        return yMinCentered;
+        return yMin + 0.5;
     }
 
     public double getZMinCentered() {
-        calculateCenters();
-        return zMinCentered;
+        return zMin + 0.5;
     }
 
     public double getXMaxCentered() {
-        calculateCenters();
-        return xMaxCentered;
+        return xMax + 0.5;
     }
 
     public double getYMaxCentered() {
-        calculateCenters();
-        return yMaxCentered;
+        return yMax + 0.5;
     }
 
     public double getZMaxCentered() {
-        calculateCenters();
-        return zMaxCentered;
+        return zMax + 0.5;
     }
 
     /**
@@ -401,8 +372,8 @@ public class Cuboid {
      * @return If it does contain the location
      */
     public boolean contains(Location loc, double marge) {
-        return loc.getWorld() == getWorld() && loc.getX() >= this.xMinCentered - marge && loc.getX() <= this.xMaxCentered + marge && loc.getY() >= this.yMinCentered - marge && loc
-                .getY() <= this.yMaxCentered + marge && loc.getZ() >= this.zMinCentered - marge && loc.getZ() <= this.zMaxCentered + marge;
+        return loc.getWorld() == getWorld() && loc.getX() >= this.xMin - marge && loc.getX() <= this.xMax + marge && loc.getY() >= this.yMin - marge && loc
+                .getY() <= this.yMax + marge && loc.getZ() >= this.zMin - marge && loc.getZ() <= this.zMax + marge;
     }
 
     public int hashCode() {
@@ -418,9 +389,5 @@ public class Cuboid {
         }
         Cuboid cuboid = (Cuboid) o;
         return xMin == cuboid.xMin && yMin == cuboid.yMin && zMin == cuboid.zMin && xMax == cuboid.xMax && yMax == cuboid.yMax && zMax == cuboid.zMax;
-    }
-
-    public long getId() {
-        return id;
     }
 }
