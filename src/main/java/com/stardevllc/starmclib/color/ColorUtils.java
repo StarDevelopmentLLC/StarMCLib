@@ -178,7 +178,7 @@ public final class ColorUtils {
         for (int i = 0; i < uncolored.length(); i++) {
             char c = uncolored.charAt(i);
             if (c == '#') {
-                if (hasPermission(sender, "starcore.color.hex")) {
+                if (hasPermission(sender, "starmclib.color.hex")) {
                     if (uncolored.length() > i + 6) {
                         String colorCode = '#' + uncolored.substring(i + 1, i + 7);
                         ChatColor color = ChatColor.of(colorCode);
