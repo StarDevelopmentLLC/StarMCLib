@@ -17,7 +17,6 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifactId = 'StarMCLib'
-
             from components.java
         }
     }
@@ -32,25 +31,8 @@ dependencies {
     compileOnly "com.github.cryptomorin:XSeries:9.7.0"
 }
 
-//javadoc {
-//    source = sourceSets.main.allJava
-//    destinationDir = file("/docs")
-//    options {
-//        showFromPublic()
-//        quiet()
-//    }
-//}
-
-//tasks.withType(Javadoc).configureEach {
-//    failOnError false
-//    options.quiet()
-//}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
-    
-    withJavadocJar()
-    withSourcesJar()
 }
