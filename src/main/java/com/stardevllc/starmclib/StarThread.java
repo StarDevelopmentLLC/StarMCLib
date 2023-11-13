@@ -3,17 +3,12 @@ package com.stardevllc.starmclib;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This is a class to allow tracking performance of a task. <br>
  * This essentially is a Wrapper for BukkitRunnable to add some extra stuff to track things.
  * @param <T> The JavaPlugin owner of the thread
  */
 public abstract class StarThread<T extends JavaPlugin> extends BukkitRunnable {
-    private static final List<StarThread<? extends JavaPlugin>> STAR_THREADS = new ArrayList<>();
-
     protected T plugin;
     protected ThreadOptions threadOptions;
 
@@ -35,7 +30,6 @@ public abstract class StarThread<T extends JavaPlugin> extends BukkitRunnable {
     public StarThread(T plugin, ThreadOptions threadOptions) {
         this.plugin = plugin;
         this.threadOptions = threadOptions;
-        STAR_THREADS.add(this);
     }
 
     public final void run() {
@@ -154,10 +148,6 @@ public abstract class StarThread<T extends JavaPlugin> extends BukkitRunnable {
 
     public boolean isAsync() {
         return threadOptions.isAsync();
-    }
-
-    public static List<StarThread<?>> getThreads() {
-        return new ArrayList<>(STAR_THREADS);
     }
 
     public long getPeriod() {
