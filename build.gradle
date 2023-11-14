@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+//    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -21,6 +22,8 @@ publishing {
         }
     }
 }
+
+//jar.finalizedBy(shadowJar)
 
 group 'com.stardevllc'
 version '1.0.0-SNAPSHOT'

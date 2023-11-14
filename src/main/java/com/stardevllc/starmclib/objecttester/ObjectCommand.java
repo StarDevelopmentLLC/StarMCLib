@@ -308,7 +308,7 @@ public class ObjectCommand<T> implements TabExecutor {
                 try {
                     T selectedObject = constructor.newInstance(constructorArguments);
                     this.selectedObjects.put(variableName, selectedObject);
-                    ColorUtils.coloredMessage(sender, "&aCreated a new object of type &e" + baseClass.getSimpleName() + " &a with the name &b" + variableName);
+                    ColorUtils.coloredMessage(sender, "&aCreated a new object of type &e" + baseClass.getSimpleName() + "&a with the name &b" + variableName);
                 } catch (Exception e) {
                     return handleException(sender, "There was an error while creating the instance", e);
                 }
@@ -356,9 +356,10 @@ public class ObjectCommand<T> implements TabExecutor {
             
             T selectedObject = this.selectedObjects.get(args[1]);
 
+            int fieldIndex = selectedObject != null ? 2 : 1;
             Field field = null;
             for (Field f : fields) {
-                if (f.getName().equalsIgnoreCase(args[1])) {
+                if (f.getName().equalsIgnoreCase(args[fieldIndex])) {
                     field = f;
                     break;
                 }
