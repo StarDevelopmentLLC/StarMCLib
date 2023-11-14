@@ -21,10 +21,10 @@ import java.util.logging.Level;
 @SuppressWarnings("ExtractMethodRecommender")
 public class ObjectCommand<T> implements TabExecutor {
 
-    protected static final Set<TypeCodex> CODECS = new HashSet<>();
+    protected static final Set<TypeCodex> DEFAULT_CODECS = new HashSet<>();
 
     static {
-        CODECS.addAll(List.of(new BooleanCodex(), new ByteCodex(), new BooleanCodex(), new CharCodex(), new DoubleCodex(), new FloatCodex(), new IntegerCodex(),
+        DEFAULT_CODECS.addAll(List.of(new BooleanCodex(), new ByteCodex(), new BooleanCodex(), new CharCodex(), new DoubleCodex(), new FloatCodex(), new IntegerCodex(),
                 new LongCodex(), new ShortCodex(), new StringCodex(), new UUIDCodex()));
 
     }
@@ -34,6 +34,7 @@ public class ObjectCommand<T> implements TabExecutor {
     private String permission;
 
     private Map<String, Selector<T>> selectors = new HashMap<>();
+    private Set<TypeCodex> codecs = new HashSet<>();
 
     private Field[] fields;
     private Method[] methods;
@@ -249,7 +250,7 @@ public class ObjectCommand<T> implements TabExecutor {
                         if (arg.contains(":")) {
                             String[] split = arg.split(":");
                             if (split.length == 2) {
-                                for (TypeCodex codec : CODECS) {
+                                for (TypeCodex codec : DEFAULT_CODECS) {
                                     if (codec.getOverridePrefix().equalsIgnoreCase(split[0])) {
                                         codex = codec;
                                         constructorParams[paramIndex] = codex.getMainClass();
@@ -345,7 +346,7 @@ public class ObjectCommand<T> implements TabExecutor {
             String combinedArgs = sb.toString().trim();
 
             TypeCodex codex = null;
-            for (TypeCodex c : CODECS) {
+            for (TypeCodex c : DEFAULT_CODECS) {
                 if (c.isValidType(field.getType())) {
                     codex = c;
                     break;
@@ -511,12 +512,19 @@ public class ObjectCommand<T> implements TabExecutor {
         }
     }
 
-    private static TypeCodex getCodex(Class<?> type) {
-        for (TypeCodex codec : CODECS) {
+    private TypeCodex getCodex(Class<?> type) {
+        for (TypeCodex codec : DEFAULT_CODECS) {
             if (codec.isValidType(type)) {
                 return codec;
             }
         }
+
+        for (TypeCodex codec : codecs) {
+            if (codec.isValidType(type)) {
+                return codec;
+            }
+        }
+        
         return null;
     }
 
@@ -564,6 +572,10 @@ public class ObjectCommand<T> implements TabExecutor {
 
     public void addSelector(String arg, Selector<T> selector) {
         this.selectors.put(arg, selector);
+    }
+    
+    public void addCodec(TypeCodex codex) {
+        this.codecs.add(codex);
     }
 
     private List<String> getFieldNames() {
