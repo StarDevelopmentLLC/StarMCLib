@@ -13,7 +13,7 @@ repositories {
 Then to use this library as a dependency  
 ```goovy
 dependencies {
-    implementation 'com.github.StarDevelopmentLLC:StarMCLib:1.0.0-SNAPSHOT'
+    implementation 'com.github.StarDevelopmentLLC:StarMCLib:1.0.0-alpha.1'
 }
 ```  
 Please note that this library requires StarLib and XMaterial.  
