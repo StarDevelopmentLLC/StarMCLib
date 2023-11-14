@@ -38,8 +38,9 @@ public class ObjectCommand<T> implements TabExecutor {
 
     private Field[] fields;
     private Method[] methods;
-    private T selectedObject;
-
+    
+    private Map<String, T> selectedObjects = new HashMap<>();
+    
     public ObjectCommand(JavaPlugin plugin, Class<T> baseClass, String permission) {
         this.plugin = plugin;
         this.baseClass = baseClass;
@@ -122,6 +123,10 @@ public class ObjectCommand<T> implements TabExecutor {
             } else if (args[1].equalsIgnoreCase("values")) {
                 key = "&7&oYou will only see values if their type has a TypeCodex.\n&7&oYou will only see instance values if you have a selection.";
                 typeOverride = "field values";
+                T selectedObject = null;
+                if (args.length > 2) {
+                    selectedObject = this.selectedObjects.get(args[2]);
+                }
                 for (Field field : fields) {
                     String name = field.getName();
                     String typeName = field.getType().getSimpleName();
@@ -193,8 +198,13 @@ public class ObjectCommand<T> implements TabExecutor {
             lines.forEach(line -> ColorUtils.coloredMessage(sender, line));
         } else if (args[0].equalsIgnoreCase("get")) {
             if (!(args.length > 1)) {
-                sender.sendMessage(ColorUtils.color("You must provide a field name."));
+                sender.sendMessage(ColorUtils.color("/<cmd> get <fieldName> [object]"));
                 return true;
+            }
+            
+            T selectedObject = null;
+            if (args.length > 2) {
+                selectedObject = this.selectedObjects.get(args[2]);
             }
 
             for (Field field : this.fields) {
@@ -213,16 +223,23 @@ public class ObjectCommand<T> implements TabExecutor {
             }
         } else if (args[0].equalsIgnoreCase("select")) {
             if (!(args.length > 1)) {
-                sender.sendMessage(ColorUtils.color("You must use a sub command"));
+                sender.sendMessage(ColorUtils.color("&cYou must use a sub command"));
                 return true;
             }
 
             if (args[1].equalsIgnoreCase("new")) {
+                if (!(args.length > 2)) {
+                    ColorUtils.coloredMessage(sender, "&cYou must provide a name for this new selection.");
+                    return true;
+                }
+
+                String variableName = args[2];
+                
                 Constructor<T> constructor;
-                int argCount = args.length - 2;
+                int argCount = args.length - 3;
                 Object[] constructorArguments = new Object[argCount];
 
-                if (args.length == 2) {
+                if (args.length == 3) {
                     try {
                         constructor = baseClass.getDeclaredConstructor();
                     } catch (NoSuchMethodException e) {
@@ -243,7 +260,7 @@ public class ObjectCommand<T> implements TabExecutor {
                     }
 
                     Class<?>[] constructorParams = new Class[argCount];
-                    for (int i = 2; i < args.length; i++) {
+                    for (int i = 3; i < args.length; i++) {
                         String arg = args[i];
                         int paramIndex = i - 1;
                         TypeCodex codex = null;
@@ -260,7 +277,7 @@ public class ObjectCommand<T> implements TabExecutor {
                         }
 
                         if (codex == null) {
-                            paramIndex = i - 2;
+                            paramIndex = i - 3;
                             plugin.getLogger().info(paramIndex + "");
                             for (Iterator<Constructor<?>> iterator = argCountFiltered.iterator(); iterator.hasNext(); ) {
                                 Constructor<?> con = iterator.next();
@@ -289,26 +306,43 @@ public class ObjectCommand<T> implements TabExecutor {
 
                 constructor.setAccessible(true);
                 try {
-                    selectedObject = constructor.newInstance(constructorArguments);
-                    ColorUtils.coloredMessage(sender, "&aCreated and selected a new object of type &e" + baseClass.getSimpleName());
+                    T selectedObject = constructor.newInstance(constructorArguments);
+                    this.selectedObjects.put(variableName, selectedObject);
+                    ColorUtils.coloredMessage(sender, "&aCreated a new object of type &e" + baseClass.getSimpleName() + " &a with the name &b" + variableName);
                 } catch (Exception e) {
                     return handleException(sender, "There was an error while creating the instance", e);
                 }
             } else if (args[1].equalsIgnoreCase("reset")) {
-                selectedObject = null;
-                sender.sendMessage(ColorUtils.color("&eThe selected object has been reset to null."));
+                if (!(args.length > 2)) {
+                    ColorUtils.coloredMessage(sender, "&cYou must provide a variable name.");
+                    return true;
+                }
+                T removed = this.selectedObjects.remove(args[2]);
+                if (removed != null) {
+                    sender.sendMessage(ColorUtils.color("&eThe object &b" + args[2] + " &ehas been removed."));
+                } else {
+                    ColorUtils.coloredMessage(sender, "&cThere was no object associated with that name.");
+                }
             } else {
-                int sal = args.length - 2;
+                if (!(args.length > 2)) {
+                    ColorUtils.coloredMessage(sender, "&cYou must provide a name for that object.");
+                    return true;
+                }
+                
+                String variableName = args[2];
+                int sal = args.length - 3;
                 String[] selectorArgs = new String[sal];
                 if (sal > 0) {
-                    System.arraycopy(args, 2, selectorArgs, 0, sal);
+                    System.arraycopy(args, 3, selectorArgs, 0, sal);
                 }
 
                 for (Map.Entry<String, Selector<T>> entry : selectors.entrySet()) {
                     if (args[1].equalsIgnoreCase(entry.getKey())) {
-                        selectedObject = entry.getValue().select(sender, selectorArgs);
+                        T selectedObject = entry.getValue().select(sender, selectorArgs);
                         if (selectedObject == null) {
                             sender.sendMessage(ColorUtils.color("&cThe selector &e" + entry.getValue() + " &creturned a null value."));
+                        } else {
+                            this.selectedObjects.put(variableName, selectedObject);
                         }
                         break;
                     }
@@ -319,6 +353,8 @@ public class ObjectCommand<T> implements TabExecutor {
                 sender.sendMessage(ColorUtils.color("&cYou must provide a field and a new value."));
                 return true;
             }
+            
+            T selectedObject = this.selectedObjects.get(args[1]);
 
             Field field = null;
             for (Field f : fields) {
@@ -328,18 +364,15 @@ public class ObjectCommand<T> implements TabExecutor {
                 }
             }
 
-            if (Modifier.isFinal(field.getModifiers())) {
-                sender.sendMessage(ColorUtils.color("&cThat field cannot be modified as it is declared final."));
-                return true;
-            }
-
             if (!Modifier.isStatic(field.getModifiers()) && selectedObject == null) {
                 sender.sendMessage(ColorUtils.color("&cYou must have an instance selected to modify that field."));
                 return true;
             }
+            
+            int startArgIndex = selectedObject != null ? 3 : 2;
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 2; i < args.length; i++) {
+            for (int i = startArgIndex; i < args.length; i++) {
                 sb.append(args[i]).append(" ");
             }
 
@@ -393,11 +426,14 @@ public class ObjectCommand<T> implements TabExecutor {
                 ColorUtils.coloredMessage(sender, "&cYou must provide a method name to call.");
                 return true;
             }
+            
+            T selectedObject = this.selectedObjects.get(args[1]);
+            String methodName = selectedObject != null ? args[2] : args[1];
 
             List<Method> filteredMethods = new ArrayList<>();
-            int argCount = args.length - 2;
+            int argCount = args.length - (selectedObject != null ? 3 : 2);
             for (Method method : methods) {
-                if (method.getName().equalsIgnoreCase(args[1])) {
+                if (method.getName().equalsIgnoreCase(methodName)) {
                     if (argCount == method.getParameterCount()) {
                         filteredMethods.add(method);
                     }
@@ -405,7 +441,7 @@ public class ObjectCommand<T> implements TabExecutor {
             }
 
             if (filteredMethods.isEmpty()) {
-                ColorUtils.coloredMessage(sender, "Could not find any methods with the name &e" + args[1] + " &cand a parameter count of &e" + argCount);
+                ColorUtils.coloredMessage(sender, "Could not find any methods with the name &e" + methodName + " &cand a parameter count of &e" + argCount);
                 return true;
             }
 
@@ -421,16 +457,16 @@ public class ObjectCommand<T> implements TabExecutor {
                     }
 
                     try {
-                        Object deserialized = codex.deserialize(args[i + 2]);
+                        Object deserialized = codex.deserialize(args[i + (selectedObject != null ? 3 : 2)]);
                         params[i] = deserialized;
                     } catch (Exception e) {
-                        ColorUtils.coloredMessage(sender, "&cCould not parse the argument at " + i + 2 + ": " + e.getClass().getSimpleName());
+                        ColorUtils.coloredMessage(sender, "&cCould not parse the argument at " + i + (selectedObject != null ? 3 : 2) + ": " + e.getClass().getSimpleName());
                         e.printStackTrace();
                         return true;
                     }
                 }
 
-                callMethod(method, params, sender);
+                callMethod(method, params, sender, selectedObject);
                 return true;
             }
 
@@ -441,7 +477,7 @@ public class ObjectCommand<T> implements TabExecutor {
                 Method method = methodIterator.next();
                 Parameter[] parameters = method.getParameters();
                 for (int pi = 0; pi < parameters.length; pi++) {
-                    int argIndex = pi + 2;
+                    int argIndex = pi + (selectedObject != null ? 3 : 2);
 
                     TypeCodex codex = getCodex(parameters[pi].getType());
                     if (codex == null) {
@@ -473,13 +509,13 @@ public class ObjectCommand<T> implements TabExecutor {
             }
 
             Method method = filteredMethods.get(0);
-            callMethod(method, params, sender);
+            callMethod(method, params, sender, selectedObject);
         }
 
         return true;
     }
 
-    private void callMethod(Method method, Object[] params, CommandSender sender) {
+    private void callMethod(Method method, Object[] params, CommandSender sender, T selectedObject) {
         Object returnObject;
         try {
             if (Modifier.isStatic(method.getModifiers())) {
@@ -584,14 +620,6 @@ public class ObjectCommand<T> implements TabExecutor {
             names.add(field.getName());
         }
         return names;
-    }
-
-    public void setSelectedObject(T selectedObject) {
-        this.selectedObject = selectedObject;
-    }
-
-    public T getSelectedObject() {
-        return selectedObject;
     }
 
     public void register() {
