@@ -16,6 +16,6 @@ dependencies {
     implementation 'com.github.StarDevelopmentLLC:StarMCLib:1.0.0-alpha.1'
 }
 ```  
-Please note that this library requires StarLib and XMaterial.  
+Please note that this library requires StarLib and XSeries.  
 You must shade this library in order to properly use it, or have it already on the class-path. Gradle has the Shadow Plugin you can use for this task.  
 If you are using Maven, the Maven-Shade plugin works just fine.
