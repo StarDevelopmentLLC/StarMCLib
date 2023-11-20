@@ -35,7 +35,12 @@ public abstract class StarThread<T extends JavaPlugin> extends BukkitRunnable {
     public final void run() {
         long msStart = System.currentTimeMillis();
         long nsStart = System.nanoTime();
-        this.onRun();
+        try {
+            this.onRun();
+        } catch (Throwable throwable) {
+            plugin.getLogger().severe("Thread " + getClass().getName() + " had an error while running.");
+            throwable.printStackTrace();
+        }
         long nsEnd = System.nanoTime();
         long msEnd = System.currentTimeMillis();
 
