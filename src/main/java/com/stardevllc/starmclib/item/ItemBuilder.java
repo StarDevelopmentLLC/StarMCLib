@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * A builder for Items <br> 
@@ -211,6 +212,11 @@ public class ItemBuilder implements Cloneable {
         this.lore.add(line);
         return this;
     }
+    
+    public ItemBuilder setLoreLine(int index, String line) {
+        this.lore.set(index, line);
+        return this;
+    }
 
     public ItemBuilder material(XMaterial material) {
         this.material = material;
@@ -261,8 +267,7 @@ public class ItemBuilder implements Cloneable {
         }
 
         if (!this.lore.isEmpty()) {
-            List<String> coloredLore = new LinkedList<>();
-            this.lore.forEach(line -> coloredLore.add(ColorUtils.color(line)));
+            List<String> coloredLore = this.lore.stream().map(ColorUtils::color).collect(Collectors.toCollection(LinkedList::new));
             itemMeta.setLore(coloredLore);
         }
         
