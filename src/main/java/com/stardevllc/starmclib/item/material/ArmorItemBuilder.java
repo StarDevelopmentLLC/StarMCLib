@@ -74,10 +74,40 @@ public class ArmorItemBuilder extends ItemBuilder {
         super.addAttributeModifier(attribute, name, amount, operation, slot);
         return this;
     }
+    
+    public ArmorItemBuilder setArmorModifier(String id, double amount, EquipmentSlot slot) {
+        super.addAttributeModifier(Attribute.GENERIC_ARMOR, id, amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+        return this;
+    }
+
+    public ArmorItemBuilder setToughnessModifier(String id, double amount, EquipmentSlot slot) {
+        super.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, id, amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+        return this;
+    }
+
+    public ArmorItemBuilder setKnockbackResistanceModifier(String id, double amount, EquipmentSlot slot) {
+        super.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, id, amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+        return this;
+    }
 
     @Override
     public ArmorItemBuilder addAttributeModifier(Attribute attribute, String name, double amount, AttributeModifier.Operation operation) {
         super.addAttributeModifier(attribute, name, amount, operation);
+        return this;
+    }
+
+    public ArmorItemBuilder setArmorModifier(String id, double amount) {
+        super.addAttributeModifier(Attribute.GENERIC_ARMOR, id, amount, AttributeModifier.Operation.ADD_NUMBER);
+        return this;
+    }
+
+    public ArmorItemBuilder setToughnessModifier(String id, double amount) {
+        super.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, id, amount, AttributeModifier.Operation.ADD_NUMBER);
+        return this;
+    }
+
+    public ArmorItemBuilder setKnockbackResistanceModifier(String id, double amount) {
+        super.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, id, amount, AttributeModifier.Operation.ADD_NUMBER);
         return this;
     }
 
