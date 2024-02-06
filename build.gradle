@@ -12,6 +12,10 @@ repositories {
     }
 }
 
+jar {
+    //destinationDirectory = file(System.getProperty("user.home") + File.separator + "Documents" + File.separator + "JarOutput")
+}
+
 group 'com.stardevllc'
 version '1.0.0-alpha.5'
 
