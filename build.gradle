@@ -13,7 +13,7 @@ repositories {
 }
 
 group 'com.stardevllc'
-version '1.0.0-alpha.4'
+version '1.0.0-alpha.5'
 
 dependencies {
     compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-alpha.1'

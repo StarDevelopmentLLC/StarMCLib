@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
  * Represents the NMSVersion of the server. Only 1.8 to 1.20.2 are supported
  */
 public enum NMSVersion {
+    UNDEFINED,
     v1_8_R1,
     v1_8_R2,
     v1_8_R3,
@@ -28,7 +29,8 @@ public enum NMSVersion {
     v1_19_R2,
     v1_19_R3, 
     v1_20_R1,
-    v1_20_R2;
+    v1_20_R2, 
+    v1_20_R3;
 
     /**
      * The current version of the server
@@ -38,6 +40,12 @@ public enum NMSVersion {
     private static NMSVersion getCurrentVersion() {
         String a = Bukkit.getServer().getClass().getPackage().getName();
         String version = a.substring(a.lastIndexOf('.') + 1);
-        return valueOf(version);
+        NMSVersion nmsVersion;
+        try {
+            nmsVersion = valueOf(version);
+        } catch (Exception e) {
+            nmsVersion = NMSVersion.UNDEFINED;
+        }
+        return nmsVersion;
     }
 }
