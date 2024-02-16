@@ -17,7 +17,7 @@ jar {
 }
 
 group 'com.stardevllc'
-version '1.0.0-alpha.5'
+version '1.0.0-alpha.6'
 
 dependencies {
     compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-alpha.1'

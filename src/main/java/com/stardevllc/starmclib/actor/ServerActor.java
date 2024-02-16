@@ -1,6 +1,5 @@
 package com.stardevllc.starmclib.actor;
 
-import com.stardevllc.starchat.StarChat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 
@@ -21,16 +20,8 @@ public class ServerActor extends Actor {
         if (object instanceof ServerActor) {
             return true;
         }
-        
-        if (object instanceof ConsoleCommandSender) {
-            return true;
-        }
-        
-        if (object instanceof UUID uuid) {
-            return uuid.equals(StarChat.consoleUniqueId);
-        }
-        
-        return false;
+
+        return object instanceof ConsoleCommandSender;
     }
 
     @Override
