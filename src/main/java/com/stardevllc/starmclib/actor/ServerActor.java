@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public class ServerActor extends Actor {
     public static final ServerActor instance = new ServerActor();
+    
+    public static UUID serverUUID;
 
     private ServerActor() {}
 
@@ -24,6 +26,12 @@ public class ServerActor extends Actor {
     public boolean equals(Object object) {
         if (object instanceof ServerActor) {
             return true;
+        }
+        
+        if (object instanceof UUID uuid) {
+            if (serverUUID != null) {
+                return serverUUID.equals(uuid);
+            }
         }
 
         return object instanceof ConsoleCommandSender;

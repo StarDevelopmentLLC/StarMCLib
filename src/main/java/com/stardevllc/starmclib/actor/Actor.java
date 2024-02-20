@@ -57,6 +57,11 @@ public abstract class Actor {
             } catch (Exception e) {
             }
 
+            Player player = Bukkit.getPlayer(str);
+            if (player != null) {
+                return of(player);
+            }
+
             Plugin plugin = Bukkit.getPluginManager().getPlugin(str);
             if (plugin != null) {
                 actor = of((JavaPlugin) plugin);
@@ -71,7 +76,11 @@ public abstract class Actor {
         return new PlayerActor(player);
     }
 
-    public static PlayerActor of(UUID uniqueId) {
+    public static Actor of(UUID uniqueId) {
+        if (uniqueId.equals(ServerActor.serverUUID)) {
+            return getServerActor();
+        }
+        
         return new PlayerActor(uniqueId);
     }
 
