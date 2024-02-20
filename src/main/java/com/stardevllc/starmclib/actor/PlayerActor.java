@@ -24,6 +24,10 @@ public class PlayerActor extends Actor {
     public Player getPlayer() {
         return Bukkit.getPlayer(uniqueId);
     }
+    
+    public boolean isOnline() {
+        return getPlayer() != null;
+    }
 
     @Override
     public boolean isPlayer() {

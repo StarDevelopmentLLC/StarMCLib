@@ -28,6 +28,10 @@ public abstract class Actor {
     public boolean isPlugin() {
         return false;
     }
+    
+    public boolean isOnline() {
+        return false;
+    }
 
     public static Actor create(Object object) {
         Actor actor = CACHE.get(object);

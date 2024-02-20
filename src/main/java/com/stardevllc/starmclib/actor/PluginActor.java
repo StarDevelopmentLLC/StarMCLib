@@ -20,6 +20,11 @@ public class PluginActor extends Actor {
     }
 
     @Override
+    public boolean isOnline() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (object instanceof JavaPlugin other) {
             return this.plugin.getName().equalsIgnoreCase(other.getName());

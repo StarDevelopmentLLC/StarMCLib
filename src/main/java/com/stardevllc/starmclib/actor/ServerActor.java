@@ -16,6 +16,11 @@ public class ServerActor extends Actor {
     }
 
     @Override
+    public boolean isOnline() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (object instanceof ServerActor) {
             return true;
