@@ -38,6 +38,11 @@ public class PluginActor extends Actor {
     }
 
     @Override
+    public int hashcode() {
+        return plugin.getName().hashCode();
+    }
+
+    @Override
     public void sendMessage(String message) {
         plugin.getLogger().info("[StarChat Error]" + message);
     }

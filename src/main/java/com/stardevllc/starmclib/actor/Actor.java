@@ -14,6 +14,7 @@ public abstract class Actor {
     public static final Map<Object, Actor> CACHE = new HashMap<>();
 
     public abstract boolean equals(Object object);
+    public abstract int hashcode();
     public abstract void sendMessage(String message);
     public abstract String getName();
 

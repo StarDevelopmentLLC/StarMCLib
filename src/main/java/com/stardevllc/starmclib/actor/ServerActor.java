@@ -38,6 +38,11 @@ public class ServerActor extends Actor {
     }
 
     @Override
+    public int hashcode() {
+        return 1;
+    }
+
+    @Override
     public void sendMessage(String message) {
         Bukkit.getConsoleSender().sendMessage(message);
     }

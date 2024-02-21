@@ -56,6 +56,11 @@ public class PlayerActor extends Actor {
     }
 
     @Override
+    public int hashcode() {
+        return this.uniqueId.hashCode();
+    }
+
+    @Override
     public void sendMessage(String message) {
         Player player = getPlayer();
         if (player != null) {

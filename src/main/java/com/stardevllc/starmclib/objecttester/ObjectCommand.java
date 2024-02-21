@@ -18,7 +18,6 @@ import java.util.logging.Level;
  * This is a dev based utility that allows seeing and modifying objects directly using reflection. <br>
  * To use this, instantiate this class and then register the command yourself. 
  */
-@SuppressWarnings("ExtractMethodRecommender")
 public class ObjectCommand<T> implements TabExecutor {
 
     protected static final Set<TypeCodex> DEFAULT_CODECS = new HashSet<>();
@@ -128,8 +127,6 @@ public class ObjectCommand<T> implements TabExecutor {
                     selectedObject = this.selectedObjects.get(args[2]);
                 }
                 for (Field field : fields) {
-                    String name = field.getName();
-                    String typeName = field.getType().getSimpleName();
                     int modifiers = field.getModifiers();
                     boolean isStatic = Modifier.isStatic(modifiers);
                     boolean isFinal = Modifier.isFinal(modifiers);
@@ -175,8 +172,6 @@ public class ObjectCommand<T> implements TabExecutor {
             } else if (args[1].equalsIgnoreCase("methods")) {
                 sender.sendMessage(ColorUtils.color("&7Key: &aName &8- &3Static? &8- &cReturn Type &8- &dParameter Count"));
                 for (Method method : methods) {
-                    String name = method.getName();
-                    String returnType = method.getReturnType().getSimpleName();
                     int modifiers = method.getModifiers();
                     boolean isStatic = Modifier.isStatic(modifiers);
                     String format = "&8- &3{static}&e" + method.getName() + "&8: &a" + method.getParameters().length;
