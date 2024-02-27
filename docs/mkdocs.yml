@@ -1,0 +1,31 @@
+site_name: StarMCLib Wiki
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.path
+    - content.code.copy
+    - content.code.annotate
+nav:
+  - Home: 'index.md'
+  - ColorUtils: 'colorutils.md'
+  - Cuboid: 'cuboid.md'
+  - ItemBuilder: 'itembuilder.md'
+  - NMSVersion: 'nmsversion.md'
+  - ObjectTester: 'objecttester.md'
+  - Position: 'position.md'
+  - ServerProperties: 'serverproperties.md'
+  - SpigotTaskFactory: 'spigottaskfactory.md'
+  - StarThread: 'starthread.md'
+  - Config: 'config.md'
+  - Actor: 'actor.md'
+repo_url: 'https://github.com/StarDevelopmentLLC/StarMCLib'
+repo_name: 'StarMCLib'
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
