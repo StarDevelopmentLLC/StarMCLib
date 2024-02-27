@@ -19,12 +19,12 @@ shadowJar {
 }
 
 group 'com.stardevllc'
-version '1.0.0-alpha.8'
+version '1.0.0-alpha.9'
 
 dependencies {
     api 'dev.dejvokep:boosted-yaml:1.3'
     api "com.github.cryptomorin:XSeries:9.7.0"
-    compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-alpha.1'
+    compileOnly 'com.github.StarDevelopmentLLC:StarLib:1.0.0-alpha.2'
     compileOnly 'org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT'
 }
 
