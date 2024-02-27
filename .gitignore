@@ -3,5 +3,4 @@
 
 # Ignore Gradle build output directory
 build
-
-docs/site
+/docs/site/
