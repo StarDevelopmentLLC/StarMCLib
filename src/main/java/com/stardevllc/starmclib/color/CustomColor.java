@@ -165,17 +165,23 @@ public class CustomColor {
         if (ColorUtils.isValidHex(this.hex) && ColorUtils.isHexSupported()) {
             this.awtColor = Color.decode(hex);
             assignRGB();
-            this.spigotColor = ChatColor.of(awtColor);
+            try {
+                this.spigotColor = ChatColor.of(awtColor);
+            } catch (Exception e) {}
         } else if (red != -1 && blue != -1 && green != -1) {
             this.awtColor = new Color(this.red, this.green, this.blue);
             this.spigotColor = ChatColor.of(awtColor);
         } else if (spigotColor != null) {
-            this.awtColor = spigotColor.getColor();
+            try {
+                this.awtColor = spigotColor.getColor();
+            } catch (Exception e) {}
             this.hex = ColorUtils.getHexCode(spigotColor);
             assignRGB();
         } else if (awtColor != null) {
             assignRGB();
-            this.spigotColor = ChatColor.of(awtColor);
+            try {
+                this.spigotColor = ChatColor.of(awtColor);
+            } catch (Exception e) {}
             this.hex = ColorUtils.getHexCode(spigotColor);
         }
     }

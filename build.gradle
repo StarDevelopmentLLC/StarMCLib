@@ -19,7 +19,7 @@ shadowJar {
 }
 
 group 'com.stardevllc'
-version '1.0.0-alpha.9'
+version '1.0.0-alpha.109'
 
 dependencies {
     api 'dev.dejvokep:boosted-yaml:1.3'
