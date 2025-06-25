@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
-//    api 'com.github.StarDevelopmentLLC:StarLib:0.8.0'
+    api 'com.github.StarDevelopmentLLC:StarLib:0.8.0'
 }
 
 //processResources {
