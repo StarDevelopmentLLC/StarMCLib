@@ -1,15 +1,12 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'com.gradleup.shadow' version '9.0.0-beta13'
 }
 
 publishing {
     publications {
-        shadow(MavenPublication) {
-            from components.shadow
+        maven(MavenPublication) {
+            from components.java
         }
     }
 }
@@ -36,26 +33,17 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
-    api 'com.github.StarDevelopmentLLC:StarLib:0.8.0'
-}
-
-//processResources {
-//    filesMatching("*.yml") {
-//        expand(project.properties)
-//    }
-//}
-
-tasks.named('shadowJar', ShadowJar) {
-    archiveClassifier = ''
+    compileOnly 'com.github.StarDevelopmentLLC:StarLib:0.8.0'
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+    
+    withJavadocJar()
+    withSourcesJar()
 }
 
 tasks.compileJava.dependsOn(clean)
-tasks.jar.finalizedBy(shadowJar)
-tasks.publishToMavenLocal.dependsOn(shadowJar)
 tasks.build.finalizedBy(publishToMavenLocal)
