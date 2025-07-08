@@ -12,7 +12,7 @@ publishing {
 }
 
 group 'com.github.StarDevelopmentLLC'
-version '0.1.0'
+version '0.1.1'
 
 repositories {
     mavenLocal()
@@ -33,7 +33,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
-    compileOnly 'com.github.StarDevelopmentLLC:StarLib:0.8.0'
+    compileOnly 'com.github.StarDevelopmentLLC:StarLib:0.9.0'
 }
 
 java {
