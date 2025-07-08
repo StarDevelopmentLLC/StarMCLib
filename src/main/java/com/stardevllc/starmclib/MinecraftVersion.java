@@ -29,7 +29,10 @@ public enum MinecraftVersion {
     
     private static MinecraftVersion getVersion() {
         try {
-            return valueOf("v" + Bukkit.getServer().getVersion().replace(".", "_"));
+            String spigotVersion = Bukkit.getServer().getVersion();
+            String[] split = spigotVersion.split("MC: ");
+            
+            return valueOf("v" + split[1].replace(")", "").replace(".", "_"));
         } catch (Exception e) {
             System.out.println("Incompatible version detected. Please ensure that StarMCLib supports this version of Minecraft");
         }
