@@ -1,4 +1,4 @@
-package com.stardevllc.starmclib;
+package com.stardevllc.starmclib.skin;
 
 import java.util.Objects;
 import java.util.UUID;
