@@ -1,4 +1,4 @@
-package com.stardevllc.starmclib;
+package com.stardevllc.starmclib.names;
 
 import com.stardevllc.helper.StringHelper;
 import org.bukkit.Material;
