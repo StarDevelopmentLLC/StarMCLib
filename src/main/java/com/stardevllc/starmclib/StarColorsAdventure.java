@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Level;
 
-public final class StarColorsAdventure {
+public class StarColorsAdventure {
     private JavaPlugin plugin;
     private BukkitAudiences audiences;
     private LegacyComponentSerializer ampersandLegacy;
