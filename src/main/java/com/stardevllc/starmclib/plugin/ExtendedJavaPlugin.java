@@ -39,6 +39,11 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         this.injector.setInstance(this);
     }
     
+    @Override
+    public void onEnable() {
+        this.colors.init();
+    }
+    
     /**
      * Registers a command to the plugin <br>
      * This does the same thing as {@code registerCommand(cmd, tabExecutor, tabExecutor}

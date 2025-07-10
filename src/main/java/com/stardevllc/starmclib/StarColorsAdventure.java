@@ -28,6 +28,9 @@ public class StarColorsAdventure {
     
     public StarColorsAdventure(JavaPlugin plugin) {
         this.plugin = plugin;
+    }
+    
+    public void init() {
         this.audiences = BukkitAudiences.create(plugin);
         
         Builder ampersandBuilder = LegacyComponentSerializer.builder().character('&').extractUrls();
