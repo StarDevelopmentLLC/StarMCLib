@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.names;
 
-import com.stardevllc.helper.StringHelper;
+import com.stardevllc.starlib.helper.StringHelper;
 import org.bukkit.Material;
 
 import java.util.*;

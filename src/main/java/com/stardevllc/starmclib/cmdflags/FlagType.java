@@ -1,7 +1,7 @@
 package com.stardevllc.starmclib.cmdflags;
 
-import com.stardevllc.converter.string.EnumStringConverter;
-import com.stardevllc.converter.string.StringConverters;
+import com.stardevllc.starlib.converter.string.EnumStringConverter;
+import com.stardevllc.starlib.converter.string.StringConverters;
 
 public enum FlagType {
     PRESENCE, COMPLEX; 

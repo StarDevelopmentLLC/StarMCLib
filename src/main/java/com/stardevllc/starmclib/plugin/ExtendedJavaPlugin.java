@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.plugin;
 
-import com.stardevllc.dependency.DependencyInjector;
+import com.stardevllc.starlib.dependency.DependencyInjector;
 import com.stardevllc.starmclib.StarColorsAdventure;
 import org.bukkit.command.*;
 import org.bukkit.plugin.java.JavaPlugin;
