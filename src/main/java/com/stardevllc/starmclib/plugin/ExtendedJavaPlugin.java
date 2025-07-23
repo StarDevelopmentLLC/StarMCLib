@@ -42,6 +42,8 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         this.colors.init();
+        this.injector.setInstance(getServer().getPluginManager());
+        this.injector.setInstance(getServer().getServicesManager());
     }
     
     /**
