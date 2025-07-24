@@ -3,6 +3,8 @@ package com.stardevllc.starmclib.plugin;
 import com.stardevllc.starlib.dependency.DependencyInjector;
 import com.stardevllc.starmclib.StarColorsAdventure;
 import org.bukkit.command.*;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -80,12 +82,26 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     protected void registerCommand(String cmd, CommandExecutor executor, TabCompleter tabCompleter) {
         PluginCommand command = getCommand(cmd);
         if (command != null) {
-            injector.inject(executor);
-            command.setExecutor(executor);
+            command.setExecutor(injector.inject(executor));
             if (tabCompleter != null) {
-                injector.inject(tabCompleter);
-                command.setTabCompleter(tabCompleter);
+                command.setTabCompleter(injector.inject(tabCompleter));
             }
+        }
+    }
+    
+    /**
+     * Registers the listeners to the PluginManager with this plugin
+     *
+     * @param listeners The array of listeners
+     */
+    protected void registerListeners(Listener... listeners) {
+        if (listeners == null) {
+            return;
+        }
+        
+        PluginManager pluginManager = getServer().getPluginManager();
+        for (Listener listener : listeners) {
+            pluginManager.registerEvents(getInjector().inject(listener), this);
         }
     }
     
@@ -141,7 +157,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     /**
      * Creates a new Dependency Injector instance<br>
      * By default it just calls the {@link DependencyInjector#create()} method
-     * 
+     *
      * @return The new {@link DependencyInjector}
      */
     protected DependencyInjector createInjector() {
