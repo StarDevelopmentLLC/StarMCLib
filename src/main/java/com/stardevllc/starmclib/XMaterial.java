@@ -22,8 +22,6 @@
  */
 package com.stardevllc.starmclib;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.stardevllc.starlib.converter.string.EnumStringConverter;
 import com.stardevllc.starlib.converter.string.StringConverters;
 import org.bukkit.Bukkit;
@@ -33,7 +31,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -1598,9 +1595,7 @@ public enum XMaterial {
     
     private static final Map<String, XMaterial> NAMES = new HashMap<>();
     
-    private static final Cache<String, XMaterial> NAME_CACHE = CacheBuilder.newBuilder()
-            .expireAfterAccess(1, TimeUnit.HOURS)
-            .build();
+    private static final Map<String, XMaterial> NAME_CACHE = new HashMap<>();
 
     private static final byte MAX_DATA_VALUE = 120;
 
@@ -1668,7 +1663,7 @@ public enum XMaterial {
     
     private static XMaterial requestOldXMaterial(String name, byte data) {
         String holder = name + data;
-        XMaterial cache = NAME_CACHE.getIfPresent(holder);
+        XMaterial cache = NAME_CACHE.get(holder);
         if (cache != null) {
             return cache;
         }
