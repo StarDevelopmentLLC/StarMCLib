@@ -5,21 +5,15 @@ import java.util.UUID;
 
 public class Skin {
     private String identifier;
-    private String playerName;
     private UUID uniqueId;
-    private String value;
+    private String textures;
     private String signature;
 
-    public Skin(UUID uuid, String playerName, String identifier, String value, String signature) {
+    public Skin(UUID uuid, String identifier, String textures, String signature) {
         this.uniqueId = uuid;
-        this.playerName = playerName;
         this.identifier = identifier;
-        this.value = value;
+        this.textures = textures;
         this.signature = signature;
-    }
-
-    public String getPlayerName() {
-        return playerName;
     }
 
     public UUID getUniqueId() {
@@ -30,8 +24,8 @@ public class Skin {
         return identifier;
     }
 
-    public String getValue() {
-        return value;
+    public String getTextures() {
+        return textures;
     }
 
     public String getSignature() {
@@ -48,20 +42,20 @@ public class Skin {
         }
         var that = (Skin) obj;
         return Objects.equals(this.identifier, that.identifier) &&
-                Objects.equals(this.value, that.value) &&
+                Objects.equals(this.textures, that.textures) &&
                 Objects.equals(this.signature, that.signature);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(identifier, value, signature);
+        return Objects.hash(identifier, textures, signature);
     }
 
     @Override
     public String toString() {
         return "Skin[" +
                 "identifier=" + identifier + ", " +
-                "value=" + value + ", " +
+                "value=" + textures + ", " +
                 "signature=" + signature + ']';
     }
 

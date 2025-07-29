@@ -62,7 +62,7 @@ public final class SkinAPI {
             return null;
         }
         
-        Skin skin = new Skin(profile.getUniqueId(), profile.getName(), playerName, profile.getSkinValue(), profile.getSkinSignature());
+        Skin skin = new Skin(profile.getUniqueId(), profile.getName(), profile.getSkinValue(), profile.getSkinSignature());
         skins.put(profile.getUniqueId().toString(), skin);
         skins.put(profile.getName(), skin);
         return skin;
@@ -79,7 +79,7 @@ public final class SkinAPI {
             return null;
         }
         
-        Skin skin = new Skin(playerId, profile.getName(), playerId.toString(), profile.getSkinValue(), profile.getSkinSignature());
+        Skin skin = new Skin(playerId, profile.getName(), profile.getSkinValue(), profile.getSkinSignature());
         skins.put(profile.getUniqueId().toString(), skin);
         skins.put(profile.getName(), skin);
         return skin;
