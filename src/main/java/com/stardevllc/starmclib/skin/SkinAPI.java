@@ -1,8 +1,8 @@
 package com.stardevllc.starmclib.skin;
 
 import com.stardevllc.starlib.helper.StringHelper;
-import com.stardevllc.starlib.mojang.MojangAPI;
-import com.stardevllc.starlib.mojang.MojangProfile;
+import com.stardevllc.starmclib.mojang.MojangAPI;
+import com.stardevllc.starmclib.mojang.MojangProfile;
 
 import java.util.*;
 
