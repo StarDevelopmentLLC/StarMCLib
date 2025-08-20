@@ -62,4 +62,4 @@ java {
 
 tasks.compileJava.dependsOn(clean)
 tasks.build.finalizedBy(publishToMavenLocal)
-tasks.build.finalizedBy(publish)
+//tasks.build.finalizedBy(publish)
