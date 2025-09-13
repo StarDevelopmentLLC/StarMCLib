@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Level;
 
-public class StarColorsAdventure {
+public class StarColorsV2 {
     private JavaPlugin plugin;
     private BukkitAudiences audiences;
     private LegacyComponentSerializer ampersandLegacy;
@@ -26,7 +26,7 @@ public class StarColorsAdventure {
     
     private Map<CharacterAndFormat, String> formattingPermissions = new HashMap<>();
     
-    public StarColorsAdventure(JavaPlugin plugin) {
+    public StarColorsV2(JavaPlugin plugin) {
         this.plugin = plugin;
     }
     
@@ -98,5 +98,25 @@ public class StarColorsAdventure {
         ampersandLegacy.formats(allowedFormats);
         
         return sectionLegacy.serialize(ampersandLegacy.build().deserialize(text));
+    }
+    
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+    
+    public BukkitAudiences getAudiences() {
+        return audiences;
+    }
+    
+    public LegacyComponentSerializer getAmpersandLegacy() {
+        return ampersandLegacy;
+    }
+    
+    public LegacyComponentSerializer getSectionLegacy() {
+        return sectionLegacy;
+    }
+    
+    public MiniMessage getMiniMessage() {
+        return miniMessage;
     }
 }

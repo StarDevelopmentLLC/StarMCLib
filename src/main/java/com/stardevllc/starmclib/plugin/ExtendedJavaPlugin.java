@@ -1,7 +1,7 @@
 package com.stardevllc.starmclib.plugin;
 
 import com.stardevllc.starlib.dependency.DependencyInjector;
-import com.stardevllc.starmclib.StarColorsAdventure;
+import com.stardevllc.starmclib.StarColorsV2;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -18,10 +18,10 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     protected final PluginEventBus<? extends ExtendedJavaPlugin> eventBus;
     
     /**
-     * Defines an instance of {@link StarColorsAdventure} to be used bu this plugin<br>
+     * Defines an instance of {@link StarColorsV2} to be used bu this plugin<br>
      * Override the {@link #createColors()} method to define a custom colors instance
      */
-    protected final StarColorsAdventure colors;
+    protected final StarColorsV2 colors;
     
     /**
      * Defines an instance of a {@link DependencyInjector} for this plugin<br>
@@ -126,23 +126,23 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     }
     
     /**
-     * This is the Plugin's specific {@link StarColorsAdventure} <br>
+     * This is the Plugin's specific {@link StarColorsV2} <br>
      * Mainly used for customization and consistency for things related to this plugin
      *
      * @return The colors instance
      */
-    public StarColorsAdventure getColors() {
+    public StarColorsV2 getColors() {
         return colors;
     }
     
     /**
      * Creates the colors instance for this plugin <br>
-     * By default it just calls the standard constructor of the {@link StarColorsAdventure} class
+     * By default it just calls the standard constructor of the {@link StarColorsV2} class
      *
-     * @return The new {@link StarColorsAdventure}
+     * @return The new {@link StarColorsV2}
      */
-    protected StarColorsAdventure createColors() {
-        return new StarColorsAdventure(this);
+    protected StarColorsV2 createColors() {
+        return new StarColorsV2(this);
     }
     
     /**
