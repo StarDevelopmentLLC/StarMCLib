@@ -2,7 +2,7 @@ package com.stardevllc.starmclib.actors;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PluginActor extends Actor {
+public class PluginActor implements Actor {
     
     private JavaPlugin plugin;
 

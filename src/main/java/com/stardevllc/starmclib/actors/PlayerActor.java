@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PlayerActor extends Actor {
+public class PlayerActor implements Actor {
     
     private UUID uniqueId;
 

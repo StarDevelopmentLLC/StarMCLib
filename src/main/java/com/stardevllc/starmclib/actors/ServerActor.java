@@ -5,7 +5,7 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import java.util.UUID;
 
-public class ServerActor extends Actor {
+public class ServerActor implements Actor {
     public static final ServerActor instance = new ServerActor();
     
     public static UUID serverUUID;

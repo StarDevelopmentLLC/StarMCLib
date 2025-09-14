@@ -1,5 +1,6 @@
 package com.stardevllc.starmclib.actors;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -7,12 +8,31 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.function.Function;
 
-public class DefaultActorFactory implements ActorFactory {
+public final class Actors {
     
-    private final Map<Object, Actor> CACHE = new HashMap<>();
+    static {
+        new ActorStringConverter();
+    }
     
-    public Actor create(Object object) {
+    private static final Map<Object, Actor> CACHE = new HashMap<>();
+    
+    private static Function<String, String> COLOR_FUNCTION = text -> ChatColor.translateAlternateColorCodes('&', text);
+    
+    public static Function<String, String> getColorFunction() {
+        return COLOR_FUNCTION;
+    }
+    
+    public static void setColorFunction(Function<String, String> colorFunction) {
+        if (colorFunction == null) {
+            return;
+        }
+        
+        COLOR_FUNCTION = colorFunction;
+    }
+    
+    public static Actor create(Object object) {
         Actor actor = CACHE.get(object);
         if (actor != null) {
             return actor;
@@ -53,11 +73,11 @@ public class DefaultActorFactory implements ActorFactory {
         return actor;
     }
     
-    public PlayerActor of(Player player) {
+    public static PlayerActor of(Player player) {
         return new PlayerActor(player);
     }
     
-    public Actor of(UUID uniqueId) {
+    public static Actor of(UUID uniqueId) {
         if (uniqueId.equals(ServerActor.serverUUID)) {
             return getServerActor();
         }
@@ -65,11 +85,11 @@ public class DefaultActorFactory implements ActorFactory {
         return new PlayerActor(uniqueId);
     }
     
-    public PluginActor of(JavaPlugin plugin) {
+    public static PluginActor of(JavaPlugin plugin) {
         return new PluginActor(plugin);
     }
     
-    public ServerActor getServerActor() {
+    public static ServerActor getServerActor() {
         return ServerActor.instance;
     }
 }

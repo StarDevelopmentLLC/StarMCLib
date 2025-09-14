@@ -23,6 +23,6 @@ public class ActorStringConverter implements StringConverter<Actor> {
     
     @Override
     public Actor convertTo(String toObject) {
-        return Actor.create(toObject);
+        return Actors.create(toObject);
     }
 }
