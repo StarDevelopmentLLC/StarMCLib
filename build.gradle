@@ -23,7 +23,7 @@ publishing {
 }
 
 group 'com.stardevllc'
-version '0.5.0'
+version '0.6.0'
 
 repositories {
     mavenLocal()
@@ -44,7 +44,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
-    compileOnly 'com.stardevllc:StarLib:0.13.0'
+    compileOnly 'com.stardevllc:StarLib:0.14.0'
     compileOnly 'com.google.code.gson:gson:2.13.1'
     compileOnly 'net.kyori:adventure-api:4.22.0'
     compileOnly 'net.kyori:adventure-platform-bukkit:4.4.0'
