@@ -43,12 +43,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
-    compileOnly 'com.stardevllc:StarLib:0.14.0'
-    compileOnly 'com.google.code.gson:gson:2.13.1'
-    compileOnly 'net.kyori:adventure-api:4.22.0'
-    compileOnly 'net.kyori:adventure-platform-bukkit:4.4.0'
-    compileOnly 'net.kyori:adventure-text-minimessage:4.22.0'
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
+    compileOnly "com.stardevllc:StarLib:${starlibVersion}"
+    compileOnly "com.google.code.gson:gson:${gsonVersion}"
+    compileOnly "net.kyori:adventure-api:${adventureVersion}"
+    compileOnly "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    compileOnly "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
 }
 
 java {
