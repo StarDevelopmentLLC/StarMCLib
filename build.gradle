@@ -22,8 +22,8 @@ publishing {
     }
 }
 
-group 'com.stardevllc'
-version '0.6.0'
+group = 'com.stardevllc'
+version = '0.6.0'
 
 repositories {
     mavenLocal()
