@@ -52,8 +52,8 @@ public class StarColorsV2 {
                 )
                 .build();
         
-        Set<Field> colorsFields = ReflectionHelper.getClassFields(CharacterAndFormat.class);
-        for (Field colorsField : colorsFields) {
+        Map<String, Field> colorsFields = ReflectionHelper.getClassFields(CharacterAndFormat.class);
+        for (Field colorsField : colorsFields.values()) {
             try {
                 CharacterAndFormat value = (CharacterAndFormat) colorsField.get(null);
                 String permission = "starcore.colors." + colorsField.getName().toLowerCase();
