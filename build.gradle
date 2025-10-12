@@ -45,6 +45,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
     compileOnly "com.stardevllc:StarLib:${starlibVersion}"
+    compileOnly "com.stardevllc:SMCVersion:${smcvVersion}"
     compileOnly "com.google.code.gson:gson:${gsonVersion}"
     compileOnly "net.kyori:adventure-api:${adventureVersion}"
     compileOnly "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"

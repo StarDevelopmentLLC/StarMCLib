@@ -1,5 +1,6 @@
 package com.stardevllc.starmclib;
 
+import com.stardevllc.smcversion.MinecraftVersion;
 import com.stardevllc.starlib.dependency.DependencyInjector;
 import com.stardevllc.starlib.eventbus.IEventBus;
 import com.stardevllc.starlib.eventbus.impl.SimpleEventBus;

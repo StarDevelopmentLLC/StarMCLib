@@ -1,7 +1,7 @@
 package com.stardevllc.starmclib.names;
 
+import com.stardevllc.smcversion.MinecraftVersion;
 import com.stardevllc.starlib.helper.StringHelper;
-import com.stardevllc.starmclib.MinecraftVersion;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;

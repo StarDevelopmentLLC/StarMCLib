@@ -1,5 +1,6 @@
 package com.stardevllc.starmclib;
 
+import com.stardevllc.smcversion.MinecraftVersion;
 import com.stardevllc.starlib.helper.ReflectionHelper;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
