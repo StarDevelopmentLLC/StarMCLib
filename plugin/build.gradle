@@ -14,11 +14,12 @@ repositories {
 }
 
 dependencies {
-    implementation project(':standalone')
+    implementation project(':common')
     compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
     implementation "com.stardevllc:StarLib:${starlibVersion}"
     implementation "com.stardevllc:SMCVersion:${smcvVersion}"
     implementation "com.stardevllc:SMaterial:${smaterialVersion}"
+    implementation "com.stardevllc:config:${configVersion}"
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "net.kyori:adventure-api:${adventureVersion}"
     implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
