@@ -1,6 +1,9 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'com.gradleup.shadow' version '9.2.2'
 }
 
 publishing {
@@ -17,13 +20,13 @@ publishing {
     
     publications {
         maven(MavenPublication) {
-            from components.java
+            from components.shadow
         }
     }
 }
 
 group = 'com.stardevllc'
-version = '0.7.0'
+version = '0.8.0'
 
 repositories {
     mavenLocal()
@@ -44,23 +47,42 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
-    compileOnly "com.stardevllc:StarLib:${starlibVersion}"
-    compileOnly "com.stardevllc:SMCVersion:${smcvVersion}"
-    compileOnly "com.google.code.gson:gson:${gsonVersion}"
-    compileOnly "net.kyori:adventure-api:${adventureVersion}"
-    compileOnly "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
-    compileOnly "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    implementation "com.stardevllc:StarLib:${starlibVersion}"
+    implementation "com.stardevllc:SMCVersion:${smcvVersion}"
+    implementation "com.stardevllc:SMaterial:${smaterialVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "net.kyori:adventure-api:${adventureVersion}"
+    implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    implementation project(':standalone')
+}
+
+tasks.named('shadowJar', ShadowJar) {
+    archiveClassifier = ''
+
+    dependencies {
+        exclude(dependency("org.jetbrains:annotations:.*"))
+        exclude(dependency("com.google.errorprone:error_prone_annotations:.*"))
+    }
+
+    relocate('net.kyori', 'com.stardevllc.kyori')
+    relocate('com.google.gson', 'com.stardevllc.gson')
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-    
-    withJavadocJar()
-    withSourcesJar()
 }
 
 tasks.compileJava.dependsOn(clean)
+tasks.jar.finalizedBy(shadowJar)
 tasks.build.finalizedBy(publishToMavenLocal)
-//tasks.build.finalizedBy(publish)
+
+tasks.withType(PublishToMavenLocal).configureEach {
+    dependsOn(shadowJar)
+}
+
+tasks.withType(PublishToMavenRepository).configureEach {
+    dependsOn(shadowJar)
+}

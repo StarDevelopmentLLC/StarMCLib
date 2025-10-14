@@ -1,0 +1,6 @@
+main: com.stardevllc.starmclib.plugin.StarMCLibPlugin
+version: ${version}
+api-version: 1.13
+name: ${rootProject.name}
+author: Firestar311
+load: STARTUP

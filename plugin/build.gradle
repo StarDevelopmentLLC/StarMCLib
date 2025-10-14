@@ -1,0 +1,53 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+    id 'java-library'
+    id 'com.gradleup.shadow' version '9.2.2'
+}
+
+version = rootProject.version
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = 'https://repo.stardevllc.com/releases'}
+}
+
+dependencies {
+    implementation project(':standalone')
+    compileOnly 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
+    implementation "com.stardevllc:StarLib:${starlibVersion}"
+    implementation "com.stardevllc:SMCVersion:${smcvVersion}"
+    implementation "com.stardevllc:SMaterial:${smaterialVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "net.kyori:adventure-api:${adventureVersion}"
+    implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+}
+
+processResources {
+    filesMatching("*.yml") {
+        expand(project.properties)
+    }
+}
+
+tasks.named('shadowJar', ShadowJar) {
+    archiveClassifier = 'plugin'
+    archiveBaseName = 'StarMCLib'
+    destinationDirectory = rootProject.layout.buildDirectory.dir("libs")
+    dependencies {
+        exclude(dependency("org.jetbrains:annotations:.*"))
+        exclude(dependency("com.google.errorprone:error_prone_annotations:.*"))
+    }
+    
+    relocate('net.kyori', 'com.stardevllc.kyori')
+    relocate('com.google.gson', 'com.stardevllc.gson')
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.compileJava.dependsOn(clean)
