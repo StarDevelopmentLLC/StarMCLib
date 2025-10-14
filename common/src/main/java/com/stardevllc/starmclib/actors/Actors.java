@@ -24,6 +24,10 @@ public final class Actors {
         return COLOR_FUNCTION;
     }
     
+    public static Map<Object, Actor> getActors() {
+        return new HashMap<>(CACHE);
+    }
+    
     public static void setColorFunction(Function<String, String> colorFunction) {
         if (colorFunction == null) {
             return;
