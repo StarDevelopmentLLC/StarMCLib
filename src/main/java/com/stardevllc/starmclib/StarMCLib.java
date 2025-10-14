@@ -19,7 +19,7 @@ import java.util.Map;
 
 public final class StarMCLib {
     public static final IEventBus<Object> GLOBAL_BUS = new SimpleEventBus<>();
-    public static final IEventBus<Event> GLOBAL_BUKKIT_EVENT_BUS = new SimpleEventBus<>();
+    public static final IEventBus<Event> GLOBAL_BUKKIT_EVENT_BUS = new SimpleEventBus<>(Event.class);
     
     public static final DependencyInjector GLOBAL_INJECTOR = DependencyInjector.create();
     
