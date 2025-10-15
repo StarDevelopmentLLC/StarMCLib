@@ -12,6 +12,7 @@ import org.bukkit.command.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("FoldExpressionIntoStream")
 public class StarMCLibCmd implements CommandExecutor {
     private ExtendedJavaPlugin plugin;
     
@@ -88,6 +89,27 @@ public class StarMCLibCmd implements CommandExecutor {
                 }
                 
                 actorPaginator.display(senderActor, page);
+            } else if (args[1].equalsIgnoreCase("sendmessage") || args[1].equalsIgnoreCase("sendmsg") || args[1].equalsIgnoreCase("sm")) {
+                if (!(args.length > 3)) {
+                    senderActor.sendColoredMessage("&cUsage: /starmclib actors " + args[1] + " <actor> <message>");
+                    return true;
+                }
+                
+                Actor target = Actors.create(args[2]);
+                if (target == null) {
+                    senderActor.sendColoredMessage("&cYou provided an invalid actor identifier.");
+                    return true;
+                }
+                
+                StringBuilder sb = new StringBuilder();
+                for (int i = 3; i < args.length; i++) {
+                    sb.append(args[i]);
+                    if (i < args.length - 1) {
+                        sb.append(" ");
+                    }
+                }
+                
+                target.sendColoredMessage(sb.toString());
             }
         }
         
