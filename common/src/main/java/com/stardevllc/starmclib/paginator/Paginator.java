@@ -25,7 +25,7 @@ public class Paginator<T> {
         }), 
         TOTAL_PAGES("{total_pages}", (actor, paginator) -> String.valueOf(paginator.getTotalPages())), 
         ELEMENT("{element}", (actor, paginator, object) -> {
-            StringConverter<?> converter = paginator.getConverter();
+            StringConverter<Object> converter = (StringConverter<Object>) paginator.getConverter();
             if (converter != null) {
                 return converter.convertFrom(object);
             }

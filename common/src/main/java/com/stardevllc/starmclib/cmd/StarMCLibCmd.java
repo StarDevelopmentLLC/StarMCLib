@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.cmd;
 
-import com.stardevllc.starlib.converter.string.StringConverters;
+import com.stardevllc.starlib.converter.string.StringConverter;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.actors.Actor;
 import com.stardevllc.starmclib.actors.Actors;
@@ -41,7 +41,11 @@ public class StarMCLibCmd implements CommandExecutor {
                 .lineFormat("  &8- &e" + DefaultVars.ELEMENT)
                 .elements(actors)
                 .elementsPerPage(7)
-                .converter(StringConverters.getConverter(Actor.class))
+                .converter(new StringConverter<>() {
+                    public String convertFrom(Actor actor) {
+                        return actor.getClass().getSimpleName().replace("Actor", "") + ": " + actor.getName();
+                    }
+                })
                 .build();
     }
     

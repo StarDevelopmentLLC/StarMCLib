@@ -13,12 +13,8 @@ public class ActorStringConverter implements StringConverter<Actor> {
     }
     
     @Override
-    public String convertFrom(Object fromObject) {
-        if (fromObject instanceof Actor actor) {
-            return actor.getName();
-        }
-        
-        return "";
+    public String convertFrom(Actor fromObject) {
+        return fromObject.getName();
     }
     
     @Override
