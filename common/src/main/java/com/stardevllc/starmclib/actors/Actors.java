@@ -39,27 +39,22 @@ public final class Actors {
     }
     
     public static Actor create(Object object) {
-        Actor actor = CACHE.get(object);
-        if (actor != null) {
-            return actor;
-        }
-        
         if (object instanceof Player player) {
-            actor = CACHE.get(player.getUniqueId());
+            Actor actor = CACHE.get(player.getUniqueId());
             if (actor != null) {
                 return actor;
             }
             
-            actor = of(player);
+            return of(player);
         } else if (object instanceof UUID uniqueId) {
-            actor = of(uniqueId);
+            return of(uniqueId);
         } else if (object instanceof JavaPlugin plugin) {
-            actor = of(plugin);
+            return of(plugin);
         } else if (object instanceof ConsoleCommandSender) {
-            actor = getServerActor();
+            return getServerActor();
         } else if (object instanceof String str) {
             if (str.equalsIgnoreCase("console") || str.equalsIgnoreCase("server")) {
-                actor = getServerActor();
+                return getServerActor();
             }
             
             try {
@@ -78,28 +73,41 @@ public final class Actors {
             }
         }
         
-        if (!(object instanceof Player player)) {
-            CACHE.put(object, actor);
-        } else {
-            CACHE.put(player.getUniqueId(), actor);
-        }
-        return actor;
+        return null;
     }
     
     public static PlayerActor of(Player player) {
-        return new PlayerActor(player);
+        if (CACHE.containsKey(player.getUniqueId())) {
+            return (PlayerActor) CACHE.get(player.getUniqueId());
+        }
+        
+        PlayerActor playerActor = new PlayerActor(player);
+        CACHE.put(player.getUniqueId(), playerActor);
+        return playerActor;
     }
     
     public static Actor of(UUID uniqueId) {
+        if (CACHE.containsKey(uniqueId)) {
+            return CACHE.get(uniqueId);
+        }
+        
         if (uniqueId.equals(ServerActor.serverUUID)) {
             return getServerActor();
         }
         
-        return new PlayerActor(uniqueId);
+        PlayerActor playerActor = new PlayerActor(uniqueId);
+        CACHE.put(playerActor.getUniqueId(), playerActor);
+        return playerActor;
     }
     
     public static PluginActor of(JavaPlugin plugin) {
-        return new PluginActor(plugin);
+        if (CACHE.containsKey(plugin.getName())) {
+            return (PluginActor) CACHE.get(plugin.getName());
+        }
+        
+        PluginActor pluginActor = new PluginActor(plugin);
+        CACHE.put(plugin.getName(), pluginActor);
+        return pluginActor;
     }
     
     public static ServerActor getServerActor() {
