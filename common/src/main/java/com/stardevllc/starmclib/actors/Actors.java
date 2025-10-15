@@ -1,5 +1,7 @@
 package com.stardevllc.starmclib.actors;
 
+import com.stardevllc.starlib.observable.collections.ObservableHashMap;
+import com.stardevllc.starlib.observable.collections.ObservableMap;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
@@ -16,7 +18,7 @@ public final class Actors {
         new ActorStringConverter();
     }
     
-    private static final Map<Object, Actor> CACHE = new HashMap<>();
+    private static final ObservableMap<Object, Actor> CACHE = new ObservableHashMap<>();
     
     private static Function<String, String> COLOR_FUNCTION = text -> ChatColor.translateAlternateColorCodes('&', text);
     
@@ -24,8 +26,8 @@ public final class Actors {
         return COLOR_FUNCTION;
     }
     
-    public static Map<Object, Actor> getActors() {
-        return new HashMap<>(CACHE);
+    public static ObservableMap<Object, Actor> getActors() {
+        return CACHE;
     }
     
     public static void setColorFunction(Function<String, String> colorFunction) {
