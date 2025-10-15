@@ -133,13 +133,17 @@ public class Paginator<T> {
         }
         
         int offset = (page - 1) * elementsPerPage;
+        int resultEnd = offset + elementsPerPage;
+        if (resultEnd >= this.elements.size()) {
+            resultEnd = this.elements.size();
+        }
         
         if (header != null && !header.isEmpty()) {
             actor.sendColoredMessage(header);
         }
         
         List<T> elements = new ArrayList<>(this.elements);
-        for (int i = offset; i < offset + elementsPerPage; i++) {
+        for (int i = offset; i < resultEnd; i++) {
             T element = elements.get(i);
             String lineFormat = this.lineFormat;
             for (Vars var : supportedVars) {
