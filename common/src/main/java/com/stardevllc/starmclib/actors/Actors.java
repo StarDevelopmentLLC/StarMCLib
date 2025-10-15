@@ -45,6 +45,11 @@ public final class Actors {
         }
         
         if (object instanceof Player player) {
+            actor = CACHE.get(player.getUniqueId());
+            if (actor != null) {
+                return actor;
+            }
+            
             actor = of(player);
         } else if (object instanceof UUID uniqueId) {
             actor = of(uniqueId);
