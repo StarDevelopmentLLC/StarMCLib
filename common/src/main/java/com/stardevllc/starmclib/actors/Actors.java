@@ -73,8 +73,10 @@ public final class Actors {
             }
         }
         
-        if (!(object instanceof Player)) {
+        if (!(object instanceof Player player)) {
             CACHE.put(object, actor);
+        } else {
+            CACHE.put(player.getUniqueId(), actor);
         }
         return actor;
     }
