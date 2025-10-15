@@ -67,12 +67,22 @@ public class StarMCLibCmd implements CommandExecutor {
         
         // actors management
         if (args[0].equalsIgnoreCase("actors")) {
+            if (!sender.hasPermission("starmclib.command.actors")) {
+                colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
+                return true;
+            }
+            
             if (args.length == 1) {
                 //Print usage
                 return true;
             }
             
             if (args[1].equalsIgnoreCase("list")) {
+                if (!sender.hasPermission("starmclib.command.actors.list")) {
+                    colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
+                    return true;
+                }
+                
                 if (actorPaginator.getTotalPages() == 0) {
                     senderActor.sendColoredMessage("&cThere are no results to display.");
                     return true;
@@ -90,6 +100,11 @@ public class StarMCLibCmd implements CommandExecutor {
                 
                 actorPaginator.display(senderActor, page);
             } else if (args[1].equalsIgnoreCase("sendmessage") || args[1].equalsIgnoreCase("sendmsg") || args[1].equalsIgnoreCase("sm")) {
+                if (!sender.hasPermission("starmclib.command.actors.sendmessage")) {
+                    colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
+                    return true;
+                }
+                
                 if (!(args.length > 3)) {
                     senderActor.sendColoredMessage("&cUsage: /starmclib actors " + args[1] + " <actor> <message>");
                     return true;
