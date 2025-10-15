@@ -15,13 +15,13 @@ public class Paginator<T> {
     }
     
     public enum DefaultVars implements Vars {
-        CURRENT_PAGE("{current_page}", (actor, paginator) -> String.valueOf(paginator.getCurrentPage())), 
+        CURRENT_PAGE("{current_page}", (actor, paginator) -> String.valueOf(paginator.getCurrentPage(actor))), 
         NEXT_PAGE("{next_page}", (actor, paginator) -> {
-            if (paginator.getCurrentPage() == paginator.getTotalPages()) {
+            if (paginator.getCurrentPage(actor) == paginator.getTotalPages()) {
                 return String.valueOf(-1);
             }
             
-            return String.valueOf(paginator.getCurrentPage() + 1);
+            return String.valueOf(paginator.getCurrentPage(actor) + 1);
         }), 
         TOTAL_PAGES("{total_pages}", (actor, paginator) -> String.valueOf(paginator.getTotalPages())), 
         ELEMENT("{element}", (actor, paginator, object) -> {
@@ -86,7 +86,7 @@ public class Paginator<T> {
     protected final StringConverter<T> converter;
     protected final Set<Vars> supportedVars = new HashSet<>(List.of(DefaultVars.values()));
     
-    protected int currentPage = 1;
+    protected final Map<Actor, Integer> actorCurrentPages = new HashMap<>();
     
     public Paginator(BiFunction<Paginator<T>, Actor, String> header, BiFunction<Paginator<T>, Actor, String> footer, String lineFormat, List<T> elements, int elementsPerPage, StringConverter<T> converter, Set<Vars> supportedVars) {
         this.header = header;
@@ -98,14 +98,20 @@ public class Paginator<T> {
         this.supportedVars.addAll(supportedVars);
     }
     
+    protected int validatePage(int page) {
+        return Math.clamp(page, 1, getTotalPages());
+    }
+    
+    public int getCurrentPage(Actor actor) {
+        return this.actorCurrentPages.computeIfAbsent(actor, a -> 1);
+    }
+    
     public void display(Actor actor) {
-        display(actor, -1);
+        display(actor, getCurrentPage(actor));
     }
     
     public void display(Actor actor, int page) {
-        if (page == -1) {
-            page = getCurrentPage();
-        }
+        page = validatePage(page);
         
         String header;
         if (this.header != null) {
@@ -170,23 +176,6 @@ public class Paginator<T> {
     
     public StringConverter<T> getConverter() {
         return converter;
-    }
-    
-    public int getCurrentPage() {
-        if (currentPage < 1) {
-            currentPage = 1;
-        } 
-        
-        if (currentPage > getTotalPages()) {
-            currentPage = getTotalPages();
-        }
-        
-        return currentPage;
-    }
-    
-    public void setCurrentPage(int page) {
-        this.currentPage = page;
-        getCurrentPage();
     }
     
     public Set<Paginator.Vars> getSupportedVars() {
