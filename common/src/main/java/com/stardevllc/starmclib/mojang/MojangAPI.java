@@ -2,6 +2,8 @@ package com.stardevllc.starmclib.mojang;
 
 import com.google.gson.*;
 import com.stardevllc.starlib.helper.StringHelper;
+import com.stardevllc.starlib.observable.collections.ObservableHashMap;
+import com.stardevllc.starlib.observable.collections.ObservableMap;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,14 +12,16 @@ import java.util.*;
 
 public final class MojangAPI {
     private static final String NAME_TO_UUID_URL = "https://api.mojang.com/users/profiles/minecraft/{playername}";
-    
     private static final String PROFILE_URL = "https://sessionserver.mojang.com/session/minecraft/profile/{uuid}?unsigned=false";
     
-    private static final Map<UUID, MojangProfile> profiles = new HashMap<>();
-    
+    private static final ObservableMap<UUID, MojangProfile> profiles = new ObservableHashMap<>();
     private static final Map<String, UUID> nameToUUIDCache = new HashMap<>();
     
     private static final Gson GSON = new Gson();
+    
+    public static ObservableMap<UUID, MojangProfile> getProfiles() {
+        return profiles;
+    }
     
     private static JsonObject getJsonFromURL(String urlString) throws IOException {
         URL url = URI.create(urlString).toURL();
