@@ -162,10 +162,6 @@ public class StarMCLibCmd implements CommandExecutor {
             }
         }
         
-        // Skin management
-        
-        // Thread Management
-        
         return true;
     }
     
