@@ -34,8 +34,8 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
     
-//    withJavadocJar()
-//    withSourcesJar()
+    withJavadocJar()
+    withSourcesJar()
 }
 
 tasks.compileJava.dependsOn(clean)
