@@ -91,10 +91,14 @@ tasks.named("javadoc", Javadoc) {
     source = subprojects.collect { subproject ->
         subproject.sourceSets.main.allJava
     }
+    source += project.sourceSets.main.allJava
 
     classpath = files(subprojects.collect { subproject ->
         subproject.sourceSets.main.compileClasspath
+        subproject.sourceSets.main.runtimeClasspath
     })
+
+    classpath += project.sourceSets.main.compileClasspath
 }
 
 tasks.named('sourcesJar', Jar) {
