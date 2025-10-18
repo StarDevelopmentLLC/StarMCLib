@@ -88,17 +88,17 @@ tasks.named('shadowJar', ShadowJar) {
 }
 
 tasks.named("javadoc", Javadoc) {
-    source = subprojects.collect { subproject ->
-        subproject.sourceSets.main.allJava
+    subprojects { subproject ->
+        source += subproject.sourceSets.main.allJava
     }
-    source += project.sourceSets.main.allJava
+//    source += project.sourceSets.main.allJava
 
-    classpath = files(subprojects.collect { subproject ->
-        subproject.sourceSets.main.compileClasspath
-        subproject.sourceSets.main.runtimeClasspath
-    })
+    subprojects { subproject ->
+        classpath += subproject.sourceSets.main.compileClasspath
+        classpath += subproject.sourceSets.main.runtimeClasspath
+    }
 
-    classpath += project.sourceSets.main.compileClasspath
+//    classpath += project.sourceSets.main.compileClasspath
 }
 
 tasks.named('sourcesJar', Jar) {
