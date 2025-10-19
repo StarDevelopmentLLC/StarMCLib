@@ -1,9 +1,9 @@
 package com.stardevllc.starmclib;
 
 import com.stardevllc.smcversion.MinecraftVersion;
-import com.stardevllc.starlib.dependency.DependencyInjector;
 import com.stardevllc.starlib.eventbus.IEventBus;
 import com.stardevllc.starlib.eventbus.impl.SimpleEventBus;
+import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.names.*;
 import com.stardevllc.starmclib.plugin.PluginEventBus;
 import org.bukkit.Bukkit;
@@ -19,10 +19,10 @@ import java.util.Map;
 public final class StarMCLib {
     public static final IEventBus<Object> GLOBAL_BUS = new SimpleEventBus<>();
     
-    public static final DependencyInjector GLOBAL_INJECTOR = DependencyInjector.create();
+    public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
     private static final Map<String, PluginEventBus<?>> pluginEventBusses = new HashMap<>();
-    private static final Map<String, DependencyInjector> pluginDependencyInjectors = new HashMap<>();
+    private static final Map<String, FieldInjector> pluginDependencyInjectors = new HashMap<>();
     
     private static JavaPlugin plugin;
     
@@ -49,7 +49,7 @@ public final class StarMCLib {
         log("Registered " + pluginEventBus.getPlugin().getName() + "'s Plugin Event Bus");
     }
     
-    public static void registerPluginInjector(JavaPlugin plugin, DependencyInjector injector) {
+    public static void registerPluginInjector(JavaPlugin plugin, FieldInjector injector) {
         pluginDependencyInjectors.put(plugin.getName().toLowerCase(), injector);
         injector.addParentInjector(GLOBAL_INJECTOR);
         log("Registered " + plugin.getName() + "'s Dependency Injector");
@@ -59,7 +59,7 @@ public final class StarMCLib {
         plugin.getLogger().info(msg);
     }
     
-    public static Map<String, DependencyInjector> getPluginDependencyInjectors() {
+    public static Map<String, FieldInjector> getPluginDependencyInjectors() {
         return new HashMap<>(pluginDependencyInjectors);
     }
     

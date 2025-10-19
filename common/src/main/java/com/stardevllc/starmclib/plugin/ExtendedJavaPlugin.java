@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.plugin;
 
-import com.stardevllc.starlib.dependency.DependencyInjector;
+import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * A class that extends {@link JavaPlugin} that defines some extra things that are useful and/or consistent
  */
+@SuppressWarnings("SameParameterValue")
 public class ExtendedJavaPlugin extends JavaPlugin {
     /**
      * Defines a PluginEventBus that listens for events that are triggered either for this plugin or maybe even some Bukkit Events<br>
@@ -24,11 +25,11 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     protected final StarColorsV2 colors;
     
     /**
-     * Defines an instance of a {@link DependencyInjector} for this plugin<br>
+     * Defines an instance of a {@link FieldInjector} for this plugin<br>
      * The constructor will set a default instance for this injector to this plugin and the direct plugin class<br>
      * Override the {@link #createInjector()} method to define a custom injector instance
      */
-    protected final DependencyInjector injector;
+    protected final FieldInjector injector;
     
     /**
      * Creates a new {@link ExtendedJavaPlugin} <br>
@@ -146,21 +147,21 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     }
     
     /**
-     * This is the plugin's {@link DependencyInjector} used in the plugin
+     * This is the plugin's {@link FieldInjector} used in the plugin
      *
      * @return The dependency injector instance
      */
-    public DependencyInjector getInjector() {
+    public FieldInjector getInjector() {
         return injector;
     }
     
     /**
      * Creates a new Dependency Injector instance<br>
-     * By default it just calls the {@link DependencyInjector#create()} method
+     * By default it just calls the {@link FieldInjector#create()} method
      *
-     * @return The new {@link DependencyInjector}
+     * @return The new {@link FieldInjector}
      */
-    protected DependencyInjector createInjector() {
-        return DependencyInjector.create();
+    protected FieldInjector createInjector() {
+        return FieldInjector.create();
     }
 }

@@ -81,14 +81,14 @@ public class Paginator<T> {
     protected final BiFunction<Paginator<T>, Actor, String> header;
     protected final BiFunction<Paginator<T>, Actor, String> footer;
     protected final String lineFormat;
-    protected final List<T> elements;
+    protected final Collection<T> elements;
     protected final int elementsPerPage;
     protected final StringConverter<T> converter;
     protected final Set<Vars> supportedVars = new HashSet<>(List.of(DefaultVars.values()));
     
     protected final Map<Actor, Integer> actorCurrentPages = new HashMap<>();
     
-    public Paginator(BiFunction<Paginator<T>, Actor, String> header, BiFunction<Paginator<T>, Actor, String> footer, String lineFormat, List<T> elements, int elementsPerPage, StringConverter<T> converter, Set<Vars> supportedVars) {
+    public Paginator(BiFunction<Paginator<T>, Actor, String> header, BiFunction<Paginator<T>, Actor, String> footer, String lineFormat, Collection<T> elements, int elementsPerPage, StringConverter<T> converter, Set<Vars> supportedVars) {
         this.header = header;
         this.footer = footer;
         this.lineFormat = lineFormat;
@@ -170,7 +170,7 @@ public class Paginator<T> {
         return lineFormat;
     }
     
-    public List<T> getElements() {
+    public Collection<T> getElements() {
         return elements;
     }
     
@@ -202,7 +202,7 @@ public class Paginator<T> {
         protected BiFunction<Paginator<T>, Actor, String> header;
         protected BiFunction<Paginator<T>, Actor, String> footer;
         protected String lineFormat;
-        protected List<T> elements;
+        protected Collection<T> elements;
         protected int elementsPerPage;
         protected StringConverter<T> converter;
         protected final Set<Vars> supportedVars = new HashSet<>();
@@ -234,7 +234,7 @@ public class Paginator<T> {
             return self();
         }
         
-        public Builder<T> elements(List<T> elements) {
+        public Builder<T> elements(Collection<T> elements) {
             this.elements = elements;
             return self();
         }

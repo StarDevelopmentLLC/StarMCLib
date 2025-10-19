@@ -11,8 +11,7 @@ import com.stardevllc.starmclib.paginator.Paginator.DefaultVars;
 import com.stardevllc.starmclib.plugin.ExtendedJavaPlugin;
 import org.bukkit.command.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("FoldExpressionIntoStream")
 public class StarMCLibCmd implements CommandExecutor {
@@ -21,19 +20,13 @@ public class StarMCLibCmd implements CommandExecutor {
     private Paginator<Actor> actorPaginator;
     private Paginator<MojangProfile> profilePaginator;
     
-    private final List<Actor> actors = new ArrayList<>();
-    private final List<MojangProfile> profiles = new ArrayList<>();
+    private final Map<Object, Actor> actors;
+    private final Map<UUID, MojangProfile> profiles;
     
     public StarMCLibCmd(ExtendedJavaPlugin plugin) {
         this.plugin = plugin;
         
-        Actors.getActors().addChangeListener(e -> {
-            if (e.added() != null && !actors.contains(e.added())) {
-                actors.add(e.added());
-            } else if (e.removed() != null && e.added() == null) {
-                actors.remove(e.removed());
-            }
-        });
+        actors = Actors.getActors().addContentMirror(new HashMap<>());
         
         this.actorPaginator = new Paginator.Builder<Actor>()
                 .header((paginator, actor) -> "&eList of Actors (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
@@ -44,7 +37,7 @@ public class StarMCLibCmd implements CommandExecutor {
                     return "";
                 })
                 .lineFormat("  &8- &e" + DefaultVars.ELEMENT)
-                .elements(actors)
+                .elements(actors.values())
                 .elementsPerPage(7)
                 .converter(new StringConverter<>() {
                     public String convertFrom(Actor actor) {
@@ -53,13 +46,7 @@ public class StarMCLibCmd implements CommandExecutor {
                 })
                 .build();
         
-        MojangAPI.getProfiles().addChangeListener(e -> {
-            if (e.added() != null && !profiles.contains(e.added())) {
-                profiles.add(e.added());
-            } else if (e.removed() != null && e.added() == null) {
-                profiles.remove(e.removed());
-            }
-        });
+        this.profiles = MojangAPI.getProfiles().addContentMirror(new HashMap<>());
         
         this.profilePaginator = new Paginator.Builder<MojangProfile>()
                 .header((paginator, actor) -> "&eList of Mojang Profiles (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
@@ -70,7 +57,7 @@ public class StarMCLibCmd implements CommandExecutor {
                     return "";
                 })
                 .lineFormat("  &8- &e" + DefaultVars.ELEMENT)
-                .elements(profiles)
+                .elements(profiles.values())
                 .elementsPerPage(7)
                 .converter(new StringConverter<>() {
                     public String convertFrom(MojangProfile profile) {
