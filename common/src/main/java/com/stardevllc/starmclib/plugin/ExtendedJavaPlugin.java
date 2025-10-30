@@ -40,6 +40,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         this.eventBus = createEventBus();
         this.colors = createColors();
         this.injector = createInjector();
+        this.injector.setInstance(this);
     }
     
     @Override
