@@ -6,8 +6,8 @@ import com.stardevllc.starmclib.actors.Actor;
 import com.stardevllc.starmclib.actors.Actors;
 import com.stardevllc.starmclib.mojang.MojangAPI;
 import com.stardevllc.starmclib.mojang.MojangProfile;
-import com.stardevllc.starmclib.paginator.Paginator;
-import com.stardevllc.starmclib.paginator.Paginator.DefaultVars;
+import com.stardevllc.starmclib.paginator.ChatPaginator;
+import com.stardevllc.starmclib.paginator.ChatPaginator.DefaultVars;
 import com.stardevllc.starmclib.plugin.ExtendedJavaPlugin;
 import org.bukkit.command.*;
 
@@ -17,8 +17,8 @@ import java.util.*;
 public class StarMCLibCmd implements CommandExecutor {
     private ExtendedJavaPlugin plugin;
     
-    private Paginator<Actor> actorPaginator;
-    private Paginator<MojangProfile> profilePaginator;
+    private ChatPaginator<Actor> actorPaginator;
+    private ChatPaginator<MojangProfile> profilePaginator;
     
     private final Map<Object, Actor> actors;
     private final Map<UUID, MojangProfile> profiles;
@@ -28,7 +28,7 @@ public class StarMCLibCmd implements CommandExecutor {
         
         actors = Actors.getActors().addContentMirror(new HashMap<>());
         
-        this.actorPaginator = new Paginator.Builder<Actor>()
+        this.actorPaginator = new ChatPaginator.Builder<Actor>()
                 .header((paginator, actor) -> "&eList of Actors (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
                 .footer((paginator, actor) -> {
                     if (paginator.getCurrentPage(actor) < paginator.getTotalPages()) {
@@ -48,7 +48,7 @@ public class StarMCLibCmd implements CommandExecutor {
         
         this.profiles = MojangAPI.getProfiles().addContentMirror(new HashMap<>());
         
-        this.profilePaginator = new Paginator.Builder<MojangProfile>()
+        this.profilePaginator = new ChatPaginator.Builder<MojangProfile>()
                 .header((paginator, actor) -> "&eList of Mojang Profiles (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
                 .footer((paginator, actor) -> {
                     if (paginator.getCurrentPage(actor) < paginator.getTotalPages()) {
@@ -152,7 +152,7 @@ public class StarMCLibCmd implements CommandExecutor {
         return true;
     }
     
-    private void handlePaginator(String[] args, Paginator<?> paginator, Actor senderActor) {
+    private void handlePaginator(String[] args, ChatPaginator<?> paginator, Actor senderActor) {
         if (paginator.getTotalPages() == 0) {
             senderActor.sendColoredMessage("&cThere are no results to display.");
             return;

@@ -8,10 +8,10 @@ import com.stardevllc.starmclib.actors.Actor;
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class Paginator<T> {
+public class ChatPaginator<T> {
     public interface Vars {
-        String replace(String text, Actor actor, Paginator<?> paginator);
-        String replace(String text, Actor actor, Paginator<?> paginator, Object element);
+        String replace(String text, Actor actor, ChatPaginator<?> paginator);
+        String replace(String text, Actor actor, ChatPaginator<?> paginator, Object element);
     }
     
     public enum DefaultVars implements Vars {
@@ -34,28 +34,28 @@ public class Paginator<T> {
         });
         
         private final String value;
-        private final BiFunction<Actor, Paginator<?>, String> mapper;
-        private final TriFunction<Actor, Paginator<?>, Object, String> elementMapper;
+        private final BiFunction<Actor, ChatPaginator<?>, String> mapper;
+        private final TriFunction<Actor, ChatPaginator<?>, Object, String> elementMapper;
         
         DefaultVars(String value) {
             this(value, null, null);
         }
         
-        DefaultVars(String value, BiFunction<Actor, Paginator<?>, String> mapper) {
+        DefaultVars(String value, BiFunction<Actor, ChatPaginator<?>, String> mapper) {
             this(value, mapper, null);
         }
         
-        DefaultVars(String value, TriFunction<Actor, Paginator<?>, Object, String> elementMapper) {
+        DefaultVars(String value, TriFunction<Actor, ChatPaginator<?>, Object, String> elementMapper) {
             this(value, null, elementMapper);
         }
         
-        DefaultVars(String value, BiFunction<Actor, Paginator<?>, String> mapper, TriFunction<Actor, Paginator<?>, Object, String> elementMapper) {
+        DefaultVars(String value, BiFunction<Actor, ChatPaginator<?>, String> mapper, TriFunction<Actor, ChatPaginator<?>, Object, String> elementMapper) {
             this.value = value;
             this.mapper = mapper;
             this.elementMapper = elementMapper;
         }
         
-        public String replace(String text, Actor actor, Paginator<?> paginator) {
+        public String replace(String text, Actor actor, ChatPaginator<?> paginator) {
             if (mapper != null) {
                 return text.replace(this.value, mapper.apply(actor, paginator));
             }
@@ -64,7 +64,7 @@ public class Paginator<T> {
         }
         
         @Override
-        public String replace(String text, Actor actor, Paginator<?> paginator, Object element) {
+        public String replace(String text, Actor actor, ChatPaginator<?> paginator, Object element) {
             if (elementMapper != null) {
                 return text.replace(this.value, elementMapper.apply(actor, paginator, element));
             }
@@ -78,8 +78,8 @@ public class Paginator<T> {
         }
     }
     
-    protected final BiFunction<Paginator<T>, Actor, String> header;
-    protected final BiFunction<Paginator<T>, Actor, String> footer;
+    protected final BiFunction<ChatPaginator<T>, Actor, String> header;
+    protected final BiFunction<ChatPaginator<T>, Actor, String> footer;
     protected final String lineFormat;
     protected final Collection<T> elements;
     protected final int elementsPerPage;
@@ -88,7 +88,7 @@ public class Paginator<T> {
     
     protected final Map<Actor, Integer> actorCurrentPages = new HashMap<>();
     
-    public Paginator(BiFunction<Paginator<T>, Actor, String> header, BiFunction<Paginator<T>, Actor, String> footer, String lineFormat, Collection<T> elements, int elementsPerPage, StringConverter<T> converter, Set<Vars> supportedVars) {
+    public ChatPaginator(BiFunction<ChatPaginator<T>, Actor, String> header, BiFunction<ChatPaginator<T>, Actor, String> footer, String lineFormat, Collection<T> elements, int elementsPerPage, StringConverter<T> converter, Set<Vars> supportedVars) {
         this.header = header;
         this.footer = footer;
         this.lineFormat = lineFormat;
@@ -158,11 +158,11 @@ public class Paginator<T> {
         }
     }
     
-    public BiFunction<Paginator<T>, Actor, String> getHeader() {
+    public BiFunction<ChatPaginator<T>, Actor, String> getHeader() {
         return header;
     }
     
-    public BiFunction<Paginator<T>, Actor, String> getFooter() {
+    public BiFunction<ChatPaginator<T>, Actor, String> getFooter() {
         return footer;
     }
     
@@ -182,7 +182,7 @@ public class Paginator<T> {
         return converter;
     }
     
-    public Set<Paginator.Vars> getSupportedVars() {
+    public Set<ChatPaginator.Vars> getSupportedVars() {
         return new HashSet<>(supportedVars);
     }
     
@@ -198,9 +198,9 @@ public class Paginator<T> {
         return pages;
     }
     
-    public static class Builder<T> implements IBuilder<Paginator<T>, Builder<T>> {
-        protected BiFunction<Paginator<T>, Actor, String> header;
-        protected BiFunction<Paginator<T>, Actor, String> footer;
+    public static class Builder<T> implements IBuilder<ChatPaginator<T>, Builder<T>> {
+        protected BiFunction<ChatPaginator<T>, Actor, String> header;
+        protected BiFunction<ChatPaginator<T>, Actor, String> footer;
         protected String lineFormat;
         protected Collection<T> elements;
         protected int elementsPerPage;
@@ -219,12 +219,12 @@ public class Paginator<T> {
             this.supportedVars.addAll(builder.supportedVars);
         }
         
-        public Builder<T> header(BiFunction<Paginator<T>, Actor, String> header) {
+        public Builder<T> header(BiFunction<ChatPaginator<T>, Actor, String> header) {
             this.header = header;
             return self();
         }
         
-        public Builder<T> footer(BiFunction<Paginator<T>, Actor, String> footer) {
+        public Builder<T> footer(BiFunction<ChatPaginator<T>, Actor, String> footer) {
             this.footer = footer;
             return self();
         }
@@ -261,7 +261,7 @@ public class Paginator<T> {
         }
         
         @Override
-        public Paginator<T> build() {
+        public ChatPaginator<T> build() {
             if (elements == null) {
                 this.elements = new LinkedList<>();
             }
@@ -270,7 +270,7 @@ public class Paginator<T> {
                 elementsPerPage = 1;
             }
             
-            return new Paginator<>(header, footer, lineFormat, elements, elementsPerPage, converter, supportedVars);
+            return new ChatPaginator<>(header, footer, lineFormat, elements, elementsPerPage, converter, supportedVars);
         }
         
         @Override

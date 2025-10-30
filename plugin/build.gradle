@@ -51,7 +51,7 @@ java {
     }
 
     withJavadocJar()
-    withSourcesJar();
+    withSourcesJar()
 }
 
 tasks.compileJava.dependsOn(clean)
