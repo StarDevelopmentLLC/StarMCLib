@@ -1,5 +1,7 @@
 package com.stardevllc.starmclib.plugin;
 
+import com.stardevllc.config.file.FileConfig;
+import com.stardevllc.config.file.yaml.YamlConfig;
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;
@@ -7,6 +9,8 @@ import org.bukkit.command.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 /**
  * A class that extends {@link JavaPlugin} that defines some extra things that are useful and/or consistent
@@ -32,6 +36,8 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      */
     protected final FieldInjector injector;
     
+    protected FileConfig mainConfig;
+    
     /**
      * Creates a new {@link ExtendedJavaPlugin} <br>
      * There needs to always be a no-args constructor for Bukkit/Spigot/Paper
@@ -49,6 +55,25 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         StarMCLib.registerPluginInjector(this, injector);
         StarMCLib.registerPluginEventBus(eventBus);
         registerInstanceToGlobalInjector();
+    }
+    
+    public FileConfig getMainConfig() {
+        if (this.mainConfig != null) {
+            return this.mainConfig;
+        }
+        
+        return this.mainConfig = new YamlConfig(new File(getDataFolder(), "config.yml"));
+    }
+    
+    public void saveMainConfig() {
+        if (this.mainConfig != null) {
+            this.mainConfig.save();
+        }
+    }
+    
+    public void reloadMainConfig() {
+        this.mainConfig = null;
+        getMainConfig();
     }
     
     protected void registerInstanceToGlobalInjector() {
