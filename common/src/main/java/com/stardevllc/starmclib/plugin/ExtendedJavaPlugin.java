@@ -2,6 +2,7 @@ package com.stardevllc.starmclib.plugin;
 
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
+import com.stardevllc.starmclib.StarMCLib;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -39,14 +40,18 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         this.eventBus = createEventBus();
         this.colors = createColors();
         this.injector = createInjector();
-        this.injector.setInstance(this);
     }
     
     @Override
     public void onEnable() {
         this.colors.init();
-        this.injector.setInstance(getServer().getPluginManager());
-        this.injector.setInstance(getServer().getServicesManager());
+        StarMCLib.registerPluginInjector(this, injector);
+        StarMCLib.registerPluginEventBus(eventBus);
+        registerInstanceToGlobalInjector();
+    }
+    
+    protected void registerInstanceToGlobalInjector() {
+        StarMCLib.GLOBAL_INJECTOR.setInstance(this);
     }
     
     /**
