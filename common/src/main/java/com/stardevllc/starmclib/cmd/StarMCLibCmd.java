@@ -78,7 +78,8 @@ public class StarMCLibCmd implements CommandExecutor {
         }
         
         if (!(args.length > 0)) {
-            //Print usage
+            colors.coloredLegacy(sender, "&cUsage: /" + label + " actors <subcommand> [args]");
+            colors.coloredLegacy(sender, "&cUsage: /" + label + " profiles <subcommand>");
             return true;
         }
         
@@ -90,7 +91,8 @@ public class StarMCLibCmd implements CommandExecutor {
             }
             
             if (args.length == 1) {
-                //Print usage
+                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " list [page]");
+                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " sendmessage|sendmsg|sm <message>");
                 return true;
             }
             
@@ -135,7 +137,7 @@ public class StarMCLibCmd implements CommandExecutor {
             }
             
             if (args.length == 1) {
-                //Print usage
+                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " list");
                 return true;
             }
             

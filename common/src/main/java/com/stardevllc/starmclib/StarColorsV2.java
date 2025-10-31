@@ -2,16 +2,17 @@ package com.stardevllc.starmclib;
 
 import com.stardevllc.smcversion.MinecraftVersion;
 import com.stardevllc.starlib.reflection.ReflectionHelper;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.CharacterAndFormat;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.Builder;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -24,6 +25,7 @@ public class StarColorsV2 {
     private LegacyComponentSerializer ampersandLegacy;
     private LegacyComponentSerializer sectionLegacy;
     private MiniMessage miniMessage;
+    private BungeeComponentSerializer bungeeSerializer = BungeeComponentSerializer.get();
     
     private Map<CharacterAndFormat, String> formattingPermissions = new HashMap<>();
     
@@ -32,6 +34,10 @@ public class StarColorsV2 {
     }
     
     public void init() {
+        /* TODO
+            There is some issues with sending components through the Audience interface directly 
+            Using the Bungee serializer to convert to that in order for it to actually work
+         */
         this.audiences = BukkitAudiences.create(plugin);
         
         Builder ampersandBuilder = LegacyComponentSerializer.builder().character('&').extractUrls();
@@ -65,19 +71,24 @@ public class StarColorsV2 {
         }
     }
     
+    public void send(CommandSender sender, Component component) {
+        if (sender instanceof Player player) {
+            player.spigot().sendMessage(bungeeSerializer.serialize(component));
+        } else {
+            sender.sendMessage(ampersandLegacy.serialize(component));
+        }
+    }
+    
     public void coloredMessage(CommandSender sender, Component component) {
-        Audience audience = audiences.sender(sender);
-        audience.sendMessage(component);
+        send(sender, component);
     }
     
     public void coloredLegacy(CommandSender sender, String text) {
-        Audience audience = audiences.sender(sender);
-        audience.sendMessage(ampersandLegacy.deserialize(text)); 
+        sender.sendMessage(colorLegacy(text));
     }
     
     public void coloredMini(CommandSender sender, String text) {
-        Audience audience = audiences.sender(sender);
-        audience.sendMessage(miniMessage.deserialize(text));
+        send(sender, miniMessage.deserialize(text));
     }
     
     public String colorMini(String text) {
