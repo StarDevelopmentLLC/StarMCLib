@@ -46,7 +46,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         this.eventBus = createEventBus();
         this.colors = createColors();
         this.injector = createInjector();
-        this.injector.setInstance(this);
+        this.injector.set(this);
     }
     
     @Override
@@ -77,7 +77,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     }
     
     protected void registerInstanceToGlobalInjector() {
-        StarMCLib.GLOBAL_INJECTOR.setInstance(this);
+        StarMCLib.GLOBAL_INJECTOR.set(this);
     }
     
     /**
