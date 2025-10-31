@@ -193,6 +193,6 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * @return The new {@link FieldInjector}
      */
     protected FieldInjector createInjector() {
-        return FieldInjector.create();
+        return new PluginFieldInjector<>(this);
     }
 }

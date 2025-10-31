@@ -6,6 +6,7 @@ import com.stardevllc.starlib.eventbus.impl.SimpleEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.names.*;
 import com.stardevllc.starmclib.plugin.PluginEventBus;
+import com.stardevllc.starmclib.plugin.PluginFieldInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
@@ -53,6 +54,10 @@ public final class StarMCLib {
         pluginDependencyInjectors.put(plugin.getName().toLowerCase(), injector);
         injector.addParentInjector(GLOBAL_INJECTOR);
         log("Registered " + plugin.getName() + "'s Dependency Injector");
+    }
+    
+    public static void registerPluginInjector(PluginFieldInjector<?> injector) {
+        registerPluginInjector(injector.getPlugin(), injector);
     }
     
     private static void log(String msg) {
