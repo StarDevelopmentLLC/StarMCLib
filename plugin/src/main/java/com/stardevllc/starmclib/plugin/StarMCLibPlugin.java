@@ -7,6 +7,7 @@ public class StarMCLibPlugin extends ExtendedJavaPlugin {
     @Override
     public void onEnable() {
         StarMCLib.init(this);
+        super.onEnable();
         
         registerCommand("starmclib", new StarMCLibCmd(this));
     }
