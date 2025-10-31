@@ -2,6 +2,7 @@ package com.stardevllc.starmclib.plugin;
 
 import com.stardevllc.config.file.FileConfig;
 import com.stardevllc.config.file.yaml.YamlConfig;
+import com.stardevllc.starlib.eventbus.IEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;
@@ -18,13 +19,13 @@ import java.io.File;
 @SuppressWarnings("SameParameterValue")
 public class ExtendedJavaPlugin extends JavaPlugin {
     /**
-     * Defines a PluginEventBus that listens for events that are triggered either for this plugin or maybe even some Bukkit Events<br>
+     * This event bus allows listening to things from StarMCLib and adding custom support for events<br>
      * Override the {@link #createEventBus()} method to define a custom event bus instance
      */
-    protected final PluginEventBus<? extends ExtendedJavaPlugin> eventBus;
+    protected final IEventBus<?> eventBus;
     
     /**
-     * Defines an instance of {@link StarColorsV2} to be used bu this plugin<br>
+     * Defines an instance of {@link StarColorsV2} to be used by this plugin<br>
      * Override the {@link #createColors()} method to define a custom colors instance
      */
     protected final StarColorsV2 colors;
@@ -36,6 +37,9 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      */
     protected final FieldInjector injector;
     
+    /**
+     * Defines a FileConfig instance. This has full comment support through all versions and is similar to modern Bukkit config things
+     */
     protected FileConfig mainConfig;
     
     /**
@@ -53,10 +57,15 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     public void onEnable() {
         this.colors.init();
         StarMCLib.registerPluginInjector(this, injector);
-        StarMCLib.registerPluginEventBus(eventBus);
+        StarMCLib.registerPluginEventBus(this, eventBus);
         registerInstanceToGlobalInjector();
     }
     
+    /**
+     * Gets the main config of this plugin
+     *
+     * @return The config instance
+     */
     public FileConfig getMainConfig() {
         if (this.mainConfig != null) {
             return this.mainConfig;
@@ -65,17 +74,26 @@ public class ExtendedJavaPlugin extends JavaPlugin {
         return this.mainConfig = new YamlConfig(new File(getDataFolder(), "config.yml"));
     }
     
+    /**
+     * Saves the main config
+     */
     public void saveMainConfig() {
         if (this.mainConfig != null) {
             this.mainConfig.save();
         }
     }
     
+    /**
+     * Reloads the main config
+     */
     public void reloadMainConfig() {
         this.mainConfig = null;
         getMainConfig();
     }
     
+    /**
+     * Allows custom registration of this plugin's injector to the global injector in StarMCLib
+     */
     protected void registerInstanceToGlobalInjector() {
         StarMCLib.GLOBAL_INJECTOR.set(this);
     }
@@ -142,7 +160,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @return The event bus instance
      */
-    public PluginEventBus<? extends ExtendedJavaPlugin> getEventBus() {
+    public IEventBus<?> getEventBus() {
         return eventBus;
     }
     
@@ -151,9 +169,9 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * By default it just creates a new {@link PluginEventBus} using the constructor <br>
      * Override for a custom implementation
      *
-     * @return The new {@link PluginEventBus}
+     * @return The new {@link IEventBus}
      */
-    protected PluginEventBus<? extends ExtendedJavaPlugin> createEventBus() {
+    protected IEventBus<?> createEventBus() {
         return new PluginEventBus<>(this);
     }
     
@@ -178,17 +196,17 @@ public class ExtendedJavaPlugin extends JavaPlugin {
     }
     
     /**
-     * This is the plugin's {@link FieldInjector} used in the plugin
+     * This is the plugin's {@link FieldInjector} used in the plugin <br>
      *
-     * @return The dependency injector instance
+     * @return The field injector instance
      */
     public FieldInjector getInjector() {
         return injector;
     }
     
     /**
-     * Creates a new Dependency Injector instance<br>
-     * By default it just calls the {@link FieldInjector#create()} method
+     * Creates a new Field Injector instance<br>
+     * This creates an instace of {@link PluginFieldInjector} by default
      *
      * @return The new {@link FieldInjector}
      */

@@ -22,7 +22,7 @@ public final class StarMCLib {
     
     public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
-    private static final Map<String, PluginEventBus<?>> pluginEventBusses = new HashMap<>();
+    private static final Map<String, IEventBus<?>> pluginEventBusses = new HashMap<>();
     private static final Map<String, FieldInjector> pluginDependencyInjectors = new HashMap<>();
     
     private static JavaPlugin plugin;
@@ -45,9 +45,13 @@ public final class StarMCLib {
         GLOBAL_INJECTOR.set(PotionNames.class, PotionNames.getInstance());
     }
     
+    public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?> eventBus) {
+        pluginEventBusses.put(plugin.getName(), eventBus);
+        log("Registered " + plugin.getName() + "'s Plugin Event Bus");
+    }
+    
     public static void registerPluginEventBus(PluginEventBus<?> pluginEventBus) {
-        pluginEventBusses.put(pluginEventBus.getPlugin().getName().toLowerCase(), pluginEventBus);
-        log("Registered " + pluginEventBus.getPlugin().getName() + "'s Plugin Event Bus");
+        registerPluginEventBus(pluginEventBus.getPlugin(), pluginEventBus);
     }
     
     public static void registerPluginInjector(JavaPlugin plugin, FieldInjector injector) {
@@ -68,7 +72,7 @@ public final class StarMCLib {
         return new HashMap<>(pluginDependencyInjectors);
     }
     
-    public static Map<String, PluginEventBus<?>> getPluginEventBusses() {
+    public static Map<String, IEventBus<?>> getPluginEventBusses() {
         return new HashMap<>(pluginEventBusses);
     }
 }
