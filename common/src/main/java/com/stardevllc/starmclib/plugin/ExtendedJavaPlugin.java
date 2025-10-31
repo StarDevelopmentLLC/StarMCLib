@@ -71,7 +71,9 @@ public class ExtendedJavaPlugin extends JavaPlugin {
             return this.mainConfig;
         }
         
-        return this.mainConfig = new YamlConfig(new File(getDataFolder(), "config.yml"));
+        this.mainConfig = new YamlConfig(new File(getDataFolder(), "config.yml"));
+        this.mainConfig.load();
+        return this.mainConfig;
     }
     
     /**
