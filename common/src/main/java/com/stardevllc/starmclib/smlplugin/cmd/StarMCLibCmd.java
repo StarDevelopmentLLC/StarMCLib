@@ -1,4 +1,4 @@
-package com.stardevllc.starmclib.cmd;
+package com.stardevllc.starmclib.smlplugin.cmd;
 
 import com.stardevllc.starlib.converter.string.StringConverter;
 import com.stardevllc.starmclib.StarColorsV2;
