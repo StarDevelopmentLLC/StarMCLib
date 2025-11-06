@@ -72,6 +72,10 @@ public class StarColorsV2 {
     }
     
     public void send(CommandSender sender, Component component) {
+        if (component == null) {
+            return;
+        }
+        
         if (sender instanceof Player player) {
             player.spigot().sendMessage(bungeeSerializer.serialize(component));
         } else {
