@@ -6,6 +6,7 @@ import com.stardevllc.starlib.eventbus.IEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;
+import com.stardevllc.starmclib.command.StarCommand;
 import org.bukkit.command.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -98,6 +99,24 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      */
     protected void registerInstanceToGlobalInjector() {
         StarMCLib.GLOBAL_INJECTOR.set(this);
+    }
+    
+    /**
+     * Registers a {@link StarCommand}. The plugin instance is provided in the constructor
+     *
+     * @param command The command
+     * @param cmds    Any additional commands
+     */
+    protected void registerCommand(StarCommand<?> command, StarCommand<?>... cmds) {
+        if (command != null) {
+            command.register();
+        }
+        
+        if (cmds != null) {
+            for (StarCommand<?> cmd : cmds) {
+                cmd.register();
+            }
+        }
     }
     
     /**

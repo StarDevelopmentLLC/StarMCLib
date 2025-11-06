@@ -1,21 +1,21 @@
 package com.stardevllc.starmclib.smlplugin.cmd;
 
 import com.stardevllc.starlib.converter.string.StringConverter;
-import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.actors.Actor;
 import com.stardevllc.starmclib.actors.Actors;
+import com.stardevllc.starmclib.command.StarCommand;
+import com.stardevllc.starmclib.command.SubCommand;
 import com.stardevllc.starmclib.mojang.MojangAPI;
 import com.stardevllc.starmclib.mojang.MojangProfile;
 import com.stardevllc.starmclib.paginator.ChatPaginator;
 import com.stardevllc.starmclib.paginator.ChatPaginator.DefaultVars;
 import com.stardevllc.starmclib.plugin.ExtendedJavaPlugin;
-import org.bukkit.command.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.*;
 
-@SuppressWarnings("FoldExpressionIntoStream")
-public class StarMCLibCmd implements CommandExecutor {
-    private ExtendedJavaPlugin plugin;
+public class StarMCLibCmd extends StarCommand<ExtendedJavaPlugin> {
     
     private ChatPaginator<Actor> actorPaginator;
     private ChatPaginator<MojangProfile> profilePaginator;
@@ -24,9 +24,10 @@ public class StarMCLibCmd implements CommandExecutor {
     private final Map<UUID, MojangProfile> profiles;
     
     public StarMCLibCmd(ExtendedJavaPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin, "starmclib", "A command to manage aspects of StarMCLib", "starmclib.command");
         
         actors = Actors.getActors().addContentMirror(new HashMap<>());
+        this.profiles = MojangAPI.getProfiles().addContentMirror(new HashMap<>());
         
         this.actorPaginator = new ChatPaginator.Builder<Actor>()
                 .header((paginator, actor) -> "&eList of Actors (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
@@ -46,8 +47,6 @@ public class StarMCLibCmd implements CommandExecutor {
                 })
                 .build();
         
-        this.profiles = MojangAPI.getProfiles().addContentMirror(new HashMap<>());
-        
         this.profilePaginator = new ChatPaginator.Builder<MojangProfile>()
                 .header((paginator, actor) -> "&eList of Mojang Profiles (&b" + DefaultVars.CURRENT_PAGE + "&e/&b" + DefaultVars.TOTAL_PAGES + "&e)")
                 .footer((paginator, actor) -> {
@@ -65,93 +64,81 @@ public class StarMCLibCmd implements CommandExecutor {
                     }
                 })
                 .build();
-    }
-    
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        StarColorsV2 colors = plugin.getColors();
         
-        Actor senderActor = Actors.create(sender);
-        if (!sender.hasPermission("starmclib.command")) {
-            colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-            return true;
-        }
+        this.subCommands.add(SubCommand.builder(plugin)
+                .name("actors")
+                .description("Actor management command")
+                .permission("starmclib.command.actors")
+                .noPermissionMessage(Component.text("You do not have permission to use that command.").color(NamedTextColor.RED))
+                .subCommand(sb -> {
+                    sb.name("list").description("List the actors that are registered");
+                    sb.noPermissionMessage(Component.text("You do not have permission to use that command.").color(NamedTextColor.RED));
+                    sb.permission("starmclib.command.actors.list");
+                    sb.executor((p, sender, label, args, flagResults) -> {
+                        handlePaginator(args, actorPaginator, Actors.create(sender));
+                        return true;
+                    });
+                })
+                .subCommand(sb -> {
+                    sb.name("sendmessage").aliases("sendmsg", "sm").description("Send a message to an actor");
+                    sb.noPermissionMessage(Component.text("You do not have permission to use that command.").color(NamedTextColor.RED));
+                    sb.permission("starmclib.command.actors.sendmessage");
+                    sb.executor((p, sender, label, args, flagResults) -> {
+                        Actor senderActor = Actors.create(sender);
+                        if (!(args.length > 1)) {
+                            senderActor.sendColoredMessage("&cUsage: /starmclib actors " + label + " <actor> <message>");
+                            return true;
+                        }
+                        
+                        Actor target = Actors.create(args[0]);
+                        if (target == null) {
+                            senderActor.sendColoredMessage("&cYou provided an invalid actor identifier.");
+                            return true;
+                        }
+                        
+                        StringBuilder sb1 = new StringBuilder();
+                        for (int i = 1; i < args.length; i++) {
+                            sb1.append(args[i]);
+                            if (i < args.length - 1) {
+                                sb1.append(" ");
+                            }
+                        }
+                        
+                        target.sendColoredMessage(sb1.toString());
+                        return true;
+                    });
+                    sb.completer((p, sender, label, args, flagResults) -> {
+                        List<String> completions = new ArrayList<>();
+                        if (args.length == 1) {
+                            for (Actor value : Actors.getActors().values()) {
+                                completions.add(value.getName());
+                            }
+                            
+                            completions.removeIf(a -> !a.toLowerCase().startsWith(args[0].toLowerCase()));
+                        } else {
+                            completions.add("<message>");
+                        }
+                        
+                        return completions;
+                    });
+                })
+                .build());
         
-        if (!(args.length > 0)) {
-            colors.coloredLegacy(sender, "&cUsage: /" + label + " actors <subcommand> [args]");
-            colors.coloredLegacy(sender, "&cUsage: /" + label + " profiles <subcommand>");
-            return true;
-        }
-        
-        // actors management
-        if (args[0].equalsIgnoreCase("actors")) {
-            if (!sender.hasPermission("starmclib.command.actors")) {
-                colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-                return true;
-            }
-            
-            if (args.length == 1) {
-                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " list [page]");
-                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " sendmessage|sendmsg|sm <message>");
-                return true;
-            }
-            
-            if (args[1].equalsIgnoreCase("list")) {
-                if (!sender.hasPermission("starmclib.command.actors.list")) {
-                    colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-                    return true;
-                }
+        this.subCommands.add(SubCommand.builder(plugin)
+                .name("profiles")
+                .permission("starmclib.command.profiles")
+                .noPermissionMessage(Component.text("You do not have permission to use that command.").color(NamedTextColor.RED))
+                .description("Profile management command")
+                .subCommand(sb -> {
+                    sb.name("list").permission("starmclib.command.profiles.list").description("List the profiles");
+                    sb.noPermissionMessage(Component.text("You do not have permission to use that command.").color(NamedTextColor.RED));
+                    sb.executor((p, sender, label, args, flagResults) -> {
+                        handlePaginator(args, profilePaginator, Actors.create(sender));
+                        return true;
+                    });
+                })
                 
-                handlePaginator(args, actorPaginator, senderActor);
-            } else if (args[1].equalsIgnoreCase("sendmessage") || args[1].equalsIgnoreCase("sendmsg") || args[1].equalsIgnoreCase("sm")) {
-                if (!sender.hasPermission("starmclib.command.actors.sendmessage")) {
-                    colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-                    return true;
-                }
-                
-                if (!(args.length > 3)) {
-                    senderActor.sendColoredMessage("&cUsage: /starmclib actors " + args[1] + " <actor> <message>");
-                    return true;
-                }
-                
-                Actor target = Actors.create(args[2]);
-                if (target == null) {
-                    senderActor.sendColoredMessage("&cYou provided an invalid actor identifier.");
-                    return true;
-                }
-                
-                StringBuilder sb = new StringBuilder();
-                for (int i = 3; i < args.length; i++) {
-                    sb.append(args[i]);
-                    if (i < args.length - 1) {
-                        sb.append(" ");
-                    }
-                }
-                
-                target.sendColoredMessage(sb.toString());
-            }
-        } else if (args[0].equalsIgnoreCase("profiles")) {
-            if (!sender.hasPermission("starmclib.command.profiles")) {
-                colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-                return true;
-            }
-            
-            if (args.length == 1) {
-                colors.coloredLegacy(sender, "&cUsage: /" + label + " " + args[0] + " list");
-                return true;
-            }
-            
-            if (args[1].equalsIgnoreCase("list")) {
-                if (!sender.hasPermission("starmclib.command.profiles.list")) {
-                    colors.coloredLegacy(sender, "&cYou do not have permission to use that command.");
-                    return true;
-                }
-                
-                handlePaginator(args, profilePaginator, senderActor);
-            }
-        }
-        
-        return true;
+                .build());
     }
     
     private void handlePaginator(String[] args, ChatPaginator<?> paginator, Actor senderActor) {
@@ -161,9 +148,9 @@ public class StarMCLibCmd implements CommandExecutor {
         }
         
         int page = 1;
-        if (args.length > 2) {
+        if (args.length > 0) {
             try {
-                page = Integer.parseInt(args[2]);
+                page = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
                 senderActor.sendColoredMessage("&cInvalid number for page argument.");
                 return;
