@@ -1,6 +1,6 @@
-package com.stardevllc.starmclib.cmdflags.type;
+package com.stardevllc.starmclib.command.flags.type;
 
-import com.stardevllc.starmclib.cmdflags.Flag;
+import com.stardevllc.starmclib.command.flags.Flag;
 
 public abstract class AbstractFlag implements Flag {
     

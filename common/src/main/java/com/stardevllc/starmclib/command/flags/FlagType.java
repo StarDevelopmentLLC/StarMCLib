@@ -1,4 +1,4 @@
-package com.stardevllc.starmclib.cmdflags;
+package com.stardevllc.starmclib.command.flags;
 
 import com.stardevllc.starlib.converter.string.EnumStringConverter;
 import com.stardevllc.starlib.converter.string.StringConverters;

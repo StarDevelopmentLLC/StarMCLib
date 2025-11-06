@@ -1,4 +1,4 @@
-package com.stardevllc.starmclib.cmdflags;
+package com.stardevllc.starmclib.command.flags;
 
 public interface Flag {
     String id();

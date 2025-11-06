@@ -1,6 +1,6 @@
-package com.stardevllc.starmclib.cmdflags.type;
+package com.stardevllc.starmclib.command.flags.type;
 
-import com.stardevllc.starmclib.cmdflags.FlagType;
+import com.stardevllc.starmclib.command.flags.FlagType;
 
 public class PresenceFlag extends AbstractFlag {
     public PresenceFlag(String id, String name) {
