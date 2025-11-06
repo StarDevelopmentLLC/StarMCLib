@@ -63,7 +63,7 @@ public class StarColorsV2 {
         for (Field colorsField : colorsFields.values()) {
             try {
                 CharacterAndFormat value = (CharacterAndFormat) colorsField.get(null);
-                String permission = "starcore.colors." + colorsField.getName().toLowerCase();
+                String permission = plugin.getName().toLowerCase() + ".colors." + colorsField.getName().toLowerCase();
                 this.formattingPermissions.put(value, permission);
             } catch (Exception e) {
                 plugin.getLogger().log(Level.SEVERE, "Could not get color values", e);
