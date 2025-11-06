@@ -79,7 +79,7 @@ public class StarColorsV2 {
         if (sender instanceof Player player) {
             player.spigot().sendMessage(bungeeSerializer.serialize(component));
         } else {
-            sender.sendMessage(ampersandLegacy.serialize(component));
+            sender.sendMessage(sectionLegacy.serialize(component));
         }
     }
     
@@ -88,22 +88,22 @@ public class StarColorsV2 {
     }
     
     public void coloredLegacy(CommandSender sender, String text) {
-        sender.sendMessage(colorLegacy(text));
+        send(sender, colorLegacy(text));
     }
     
     public void coloredMini(CommandSender sender, String text) {
         send(sender, miniMessage.deserialize(text));
     }
     
-    public String colorMini(String text) {
-        return sectionLegacy.serialize(miniMessage.deserialize(text));
+    public Component colorMini(String text) {
+        return miniMessage.deserialize(text);
     }
     
-    public String colorLegacy(String text) {
-        return sectionLegacy.serialize(ampersandLegacy.deserialize(text));
+    public Component colorLegacy(String text) {
+        return ampersandLegacy.deserialize(text);
     }
     
-    public String colorLegacy(CommandSender sender, String text) {
+    public Component colorLegacy(CommandSender sender, String text) {
         Builder ampersandLegacy = LegacyComponentSerializer.builder().character('&');
         List<CharacterAndFormat> allowedFormats = new ArrayList<>();
         this.formattingPermissions.forEach((color, perm) -> {
@@ -113,7 +113,7 @@ public class StarColorsV2 {
         });
         ampersandLegacy.formats(allowedFormats);
         
-        return sectionLegacy.serialize(ampersandLegacy.build().deserialize(text));
+        return ampersandLegacy.build().deserialize(text);
     }
     
     public JavaPlugin getPlugin() {
@@ -122,6 +122,10 @@ public class StarColorsV2 {
     
     public BukkitAudiences getAudiences() {
         return audiences;
+    }
+    
+    public BungeeComponentSerializer getBungeeSerializer() {
+        return bungeeSerializer;
     }
     
     public LegacyComponentSerializer getAmpersandLegacy() {
