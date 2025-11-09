@@ -8,6 +8,7 @@ import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;
 import com.stardevllc.starmclib.command.StarCommand;
 import org.bukkit.command.*;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +24,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * This event bus allows listening to things from StarMCLib and adding custom support for events<br>
      * Override the {@link #createEventBus()} method to define a custom event bus instance
      */
-    protected final IEventBus<?> eventBus;
+    protected final IEventBus<?, Cancellable> eventBus;
     
     /**
      * Defines an instance of {@link StarColorsV2} to be used by this plugin<br>
@@ -181,7 +182,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @return The event bus instance
      */
-    public IEventBus<?> getEventBus() {
+    public IEventBus<?, ?> getEventBus() {
         return eventBus;
     }
     
@@ -192,7 +193,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @return The new {@link IEventBus}
      */
-    protected IEventBus<?> createEventBus() {
+    protected IEventBus<?, Cancellable> createEventBus() {
         return new PluginEventBus<>(this);
     }
     
