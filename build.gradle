@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.stardevllc'
-version = '0.10.1'
+version = '0.11.0'
 
 publishing {
     repositories {
@@ -54,16 +54,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
+    implementation project(':common')
     implementation "com.stardevllc:StarLib:${starlibVersion}"
     implementation "com.stardevllc:SMCVersion:${smcvVersion}"
-    implementation "com.stardevllc:SMaterial:${smaterialVersion}"
     implementation "com.stardevllc:config:${configVersion}"
-    implementation "com.google.code.gson:gson:${gsonVersion}"
-    implementation "net.kyori:adventure-api:${adventureVersion}"
-    implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
-    implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
-    implementation project(':common')
+    compileOnly "com.google.code.gson:gson:${gsonVersion}"
+    compileOnly "net.kyori:adventure-api:${adventureVersion}"
+    compileOnly "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    compileOnly "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
 }
 
 java {
@@ -83,8 +82,8 @@ tasks.named('shadowJar', ShadowJar) {
         exclude(dependency("com.google.errorprone:error_prone_annotations:.*"))
     }
 
-    relocate('net.kyori', 'com.stardevllc.kyori')
-    relocate('com.google.gson', 'com.stardevllc.gson')
+//    relocate('net.kyori', 'com.stardevllc.kyori')
+//    relocate('com.google.gson', 'com.stardevllc.gson')
 }
 
 tasks.named("javadoc", Javadoc) {

@@ -24,20 +24,20 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * This event bus allows listening to things from StarMCLib and adding custom support for events<br>
      * Override the {@link #createEventBus()} method to define a custom event bus instance
      */
-    protected final IEventBus<?, Cancellable> eventBus;
+    private IEventBus<?, Cancellable> eventBus;
     
     /**
      * Defines an instance of {@link StarColorsV2} to be used by this plugin<br>
      * Override the {@link #createColors()} method to define a custom colors instance
      */
-    protected final StarColorsV2 colors;
+    private StarColorsV2 colors;
     
     /**
      * Defines an instance of a {@link FieldInjector} for this plugin<br>
      * The constructor will set a default instance for this injector to this plugin and the direct plugin class<br>
      * Override the {@link #createInjector()} method to define a custom injector instance
      */
-    protected final FieldInjector injector;
+    private FieldInjector injector;
     
     /**
      * Defines a FileConfig instance. This has full comment support through all versions and is similar to modern Bukkit config things
@@ -49,14 +49,15 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * There needs to always be a no-args constructor for Bukkit/Spigot/Paper
      */
     public ExtendedJavaPlugin() {
-        this.eventBus = createEventBus();
-        this.colors = createColors();
-        this.injector = createInjector();
-        this.injector.set(this);
+        
     }
     
     @Override
     public void onEnable() {
+        this.eventBus = createEventBus();
+        this.colors = createColors();
+        this.injector = createInjector();
+        this.injector.set(this);
         this.colors.init();
         StarMCLib.registerPluginInjector(this, injector);
         StarMCLib.registerPluginEventBus(this, eventBus);
