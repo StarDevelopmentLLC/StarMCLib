@@ -3,7 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id 'java-library'
     id 'com.gradleup.shadow' version '9.2.2'
-    id 'xyz.kyngs.libby.plugin' version '2.0.1'
 }
 
 version = rootProject.version
@@ -15,22 +14,16 @@ repositories {
 }
 
 dependencies {
-    implementation("com.stardevllc.libby:libby-bukkit:1.0.1")
     implementation project(':common')
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
     implementation "com.stardevllc:StarLib:${starlibVersion}"
     implementation "com.stardevllc:SMCVersion:${smcvVersion}"
     implementation "com.stardevllc:config:${configVersion}"
-    libby "com.google.code.gson:gson:${gsonVersion}"
-    libby "net.kyori:adventure-api:${adventureVersion}"
-    libby "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
-    libby "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
-    libby "org.yaml:snakeyaml:${snakeymlVersion}"
-}
-
-libby {
-    excludeDependency("com.google.errorprone:.*:.*")
-    excludeDependency("org.jetbrains:.*:.*")
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "net.kyori:adventure-api:${adventureVersion}"
+    implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    implementation "org.yaml:snakeyaml:${snakeymlVersion}"
 }
 
 processResources {
@@ -51,8 +44,6 @@ tasks.named('shadowJar', ShadowJar) {
     relocate('net.kyori', 'com.stardevllc.kyori')
     relocate('com.google.gson', 'com.stardevllc.gson')
     relocate('org.yaml.snakeyaml', 'com.stardevllc.snakeyaml')
-    relocate("net.byteflux.libby", "com.stardevllc.starmclib.libby")
-    relocate('com.grack', 'com.stardevllc.starmclib.grack')
 }
 
 java {
