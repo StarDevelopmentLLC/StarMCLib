@@ -23,7 +23,7 @@ public final class StarMCLib {
     
     public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
-    private static final Map<String, IEventBus<?, Cancellable>> pluginEventBusses = new HashMap<>();
+    private static final Map<String, IEventBus<?, Cancellable>> pluginEventBuses = new HashMap<>();
     private static final Map<String, FieldInjector> pluginFieldInjectors = new HashMap<>();
     
     private static final Set<Consumer<IEventBus<?, Cancellable>>> pluginEventBusRestrationListeners = new HashSet<>();
@@ -49,7 +49,7 @@ public final class StarMCLib {
     }
     
     public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?, Cancellable> eventBus) {
-        pluginEventBusses.put(plugin.getName(), eventBus);
+        pluginEventBuses.put(plugin.getName(), eventBus);
         GLOBAL_BUS.addChildBus(eventBus);
         for (Consumer<IEventBus<?, Cancellable>> listener : pluginEventBusRestrationListeners) {
             listener.accept(eventBus);
@@ -79,8 +79,8 @@ public final class StarMCLib {
         return new HashMap<>(pluginFieldInjectors);
     }
     
-    public static Map<String, IEventBus<?, Cancellable>> getPluginEventBusses() {
-        return new HashMap<>(pluginEventBusses);
+    public static Map<String, IEventBus<?, Cancellable>> getPluginEventBuses() {
+        return new HashMap<>(pluginEventBuses);
     }
     
     public static void addPluginEventBusRegisterListener(Consumer<IEventBus<?, Cancellable>> eventBusConsumer) {
