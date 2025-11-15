@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 public final class StarMCLib {
     public static final IEventBus<Object, Cancellable> GLOBAL_BUS = new StarEventBus<>();
@@ -24,7 +24,9 @@ public final class StarMCLib {
     public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
     private static final Map<String, IEventBus<?, Cancellable>> pluginEventBusses = new HashMap<>();
-    private static final Map<String, FieldInjector> pluginDependencyInjectors = new HashMap<>();
+    private static final Map<String, FieldInjector> pluginFieldInjectors = new HashMap<>();
+    
+    private static final Set<Consumer<IEventBus<?, Cancellable>>> pluginEventBusRestrationListeners = new HashSet<>();
     
     private static JavaPlugin plugin;
     
@@ -48,6 +50,10 @@ public final class StarMCLib {
     
     public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?, Cancellable> eventBus) {
         pluginEventBusses.put(plugin.getName(), eventBus);
+        GLOBAL_BUS.addChildBus(eventBus);
+        for (Consumer<IEventBus<?, Cancellable>> listener : pluginEventBusRestrationListeners) {
+            listener.accept(eventBus);
+        }
         log("Registered " + plugin.getName() + "'s Plugin Event Bus");
     }
     
@@ -56,7 +62,7 @@ public final class StarMCLib {
     }
     
     public static void registerPluginInjector(JavaPlugin plugin, FieldInjector injector) {
-        pluginDependencyInjectors.put(plugin.getName().toLowerCase(), injector);
+        pluginFieldInjectors.put(plugin.getName().toLowerCase(), injector);
         injector.addParentInjector(GLOBAL_INJECTOR);
         log("Registered " + plugin.getName() + "'s Dependency Injector");
     }
@@ -69,11 +75,15 @@ public final class StarMCLib {
         plugin.getLogger().info(msg);
     }
     
-    public static Map<String, FieldInjector> getPluginDependencyInjectors() {
-        return new HashMap<>(pluginDependencyInjectors);
+    public static Map<String, FieldInjector> getPluginFieldInjectors() {
+        return new HashMap<>(pluginFieldInjectors);
     }
     
     public static Map<String, IEventBus<?, Cancellable>> getPluginEventBusses() {
         return new HashMap<>(pluginEventBusses);
+    }
+    
+    public static void addPluginEventBusRegisterListener(Consumer<IEventBus<?, Cancellable>> eventBusConsumer) {
+        pluginEventBusRestrationListeners.add(eventBusConsumer);
     }
 }
