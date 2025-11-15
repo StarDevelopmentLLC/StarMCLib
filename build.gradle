@@ -58,10 +58,10 @@ dependencies {
     implementation "com.stardevllc:StarLib:${starlibVersion}"
     implementation "com.stardevllc:SMCVersion:${smcvVersion}"
     implementation "com.stardevllc:config:${configVersion}"
-    compileOnly "com.google.code.gson:gson:${gsonVersion}"
-    compileOnly "net.kyori:adventure-api:${adventureVersion}"
-    compileOnly "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
-    compileOnly "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "net.kyori:adventure-api:${adventureVersion}"
+    implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
+    implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
 }
 
@@ -82,8 +82,8 @@ tasks.named('shadowJar', ShadowJar) {
         exclude(dependency("com.google.errorprone:error_prone_annotations:.*"))
     }
 
-//    relocate('net.kyori', 'com.stardevllc.kyori')
-//    relocate('com.google.gson', 'com.stardevllc.gson')
+    relocate('net.kyori', 'com.stardevllc.kyori')
+    relocate('com.google.gson', 'com.stardevllc.gson')
 }
 
 tasks.named("javadoc", Javadoc) {
