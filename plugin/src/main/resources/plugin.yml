@@ -1,4 +1,4 @@
-main: com.stardevllc.starmclib.plugin.StarMCLibPlugin
+main: com.stardevllc.starmclib.smlplugin.StarMCLibPlugin
 version: ${version}
 api-version: 1.13
 name: ${rootProject.name}

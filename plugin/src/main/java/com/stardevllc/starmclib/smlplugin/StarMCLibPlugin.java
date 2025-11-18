@@ -1,6 +1,7 @@
-package com.stardevllc.starmclib.plugin;
+package com.stardevllc.starmclib.smlplugin;
 
 import com.stardevllc.starmclib.StarMCLib;
+import com.stardevllc.starmclib.plugin.ExtendedJavaPlugin;
 import com.stardevllc.starmclib.smlplugin.cmd.StarMCLibCmd;
 
 public class StarMCLibPlugin extends ExtendedJavaPlugin {
