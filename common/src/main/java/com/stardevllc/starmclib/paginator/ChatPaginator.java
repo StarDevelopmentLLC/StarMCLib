@@ -1,8 +1,8 @@
 package com.stardevllc.starmclib.paginator;
 
-import com.stardevllc.starlib.builder.IBuilder;
 import com.stardevllc.starlib.converter.string.StringConverter;
 import com.stardevllc.starlib.function.TriFunction;
+import com.stardevllc.starlib.objects.builder.IBuilder;
 import com.stardevllc.starmclib.actors.Actor;
 
 import java.util.*;

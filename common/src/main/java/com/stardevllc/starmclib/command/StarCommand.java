@@ -1,6 +1,6 @@
 package com.stardevllc.starmclib.command;
 
-import com.stardevllc.starlib.builder.IBuilder;
+import com.stardevllc.starlib.objects.builder.IBuilder;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.command.flags.CmdFlags;
 import com.stardevllc.starmclib.command.flags.FlagResult;

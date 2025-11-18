@@ -4,6 +4,8 @@ import com.stardevllc.smcversion.MinecraftVersion;
 import com.stardevllc.starlib.eventbus.IEventBus;
 import com.stardevllc.starlib.eventbus.impl.StarEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
+import com.stardevllc.starlib.observable.collections.ObservableHashMap;
+import com.stardevllc.starlib.observable.collections.ObservableMap;
 import com.stardevllc.starmclib.names.*;
 import com.stardevllc.starmclib.plugin.PluginEventBus;
 import com.stardevllc.starmclib.plugin.PluginFieldInjector;
@@ -15,18 +17,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.*;
-import java.util.function.Consumer;
-
 public final class StarMCLib {
     public static final IEventBus<Object, Cancellable> GLOBAL_BUS = new StarEventBus<>();
-    
     public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
-    private static final Map<String, IEventBus<?, Cancellable>> pluginEventBuses = new HashMap<>();
-    private static final Map<String, FieldInjector> pluginFieldInjectors = new HashMap<>();
-    
-    private static final Set<Consumer<IEventBus<?, Cancellable>>> pluginEventBusRestrationListeners = new HashSet<>();
+    private static final ObservableMap<String, IEventBus<?, Cancellable>> pluginEventBuses = new ObservableHashMap<>();
+    private static final ObservableMap<String, FieldInjector> pluginFieldInjectors = new ObservableHashMap<>();
     
     private static JavaPlugin plugin;
     
@@ -51,9 +47,6 @@ public final class StarMCLib {
     public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?, Cancellable> eventBus) {
         pluginEventBuses.put(plugin.getName(), eventBus);
         GLOBAL_BUS.addChildBus(eventBus);
-        for (Consumer<IEventBus<?, Cancellable>> listener : pluginEventBusRestrationListeners) {
-            listener.accept(eventBus);
-        }
         log("Registered " + plugin.getName() + "'s Plugin Event Bus");
     }
     
@@ -75,15 +68,11 @@ public final class StarMCLib {
         plugin.getLogger().info(msg);
     }
     
-    public static Map<String, FieldInjector> getPluginFieldInjectors() {
-        return new HashMap<>(pluginFieldInjectors);
+    public static ObservableMap<String, FieldInjector> getPluginFieldInjectors() {
+        return pluginFieldInjectors;
     }
     
-    public static Map<String, IEventBus<?, Cancellable>> getPluginEventBuses() {
-        return new HashMap<>(pluginEventBuses);
-    }
-    
-    public static void addPluginEventBusRegisterListener(Consumer<IEventBus<?, Cancellable>> eventBusConsumer) {
-        pluginEventBusRestrationListeners.add(eventBusConsumer);
+    public static ObservableMap<String, IEventBus<?, Cancellable>> getPluginEventBuses() {
+        return pluginEventBuses;
     }
 }
