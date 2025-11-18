@@ -62,6 +62,7 @@ dependencies {
     implementation "net.kyori:adventure-api:${adventureVersion}"
     implementation "net.kyori:adventure-platform-bukkit:${adventureBukkitVersion}"
     implementation "net.kyori:adventure-text-minimessage:${miniMessageVersion}"
+    implementation "org.yaml:snakeyaml:${snakeymlVersion}"
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
 }
 
@@ -84,6 +85,7 @@ tasks.named('shadowJar', ShadowJar) {
 
     relocate('net.kyori', 'com.stardevllc.kyori')
     relocate('com.google.gson', 'com.stardevllc.gson')
+    relocate('org.yaml.snakeyaml', 'com.stardevllc.snakeyaml')
 }
 
 tasks.named("javadoc", Javadoc) {
