@@ -4,5 +4,6 @@ api-version: 1.13
 name: ${rootProject.name}
 author: Firestar311
 load: STARTUP
+folia-supported: true
 commands:
   starmclib:
