@@ -1,7 +1,7 @@
 package com.stardevllc.starmclib.actors;
 
-import com.stardevllc.starlib.observable.collections.ObservableHashMap;
-import com.stardevllc.starlib.observable.collections.ObservableMap;
+import com.stardevllc.starlib.observable.collections.map.ObservableHashMap;
+import com.stardevllc.starlib.observable.collections.map.ObservableMap;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
