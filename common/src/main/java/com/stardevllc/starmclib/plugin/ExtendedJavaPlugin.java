@@ -8,7 +8,6 @@ import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;
 import com.stardevllc.starmclib.command.StarCommand;
 import org.bukkit.command.*;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,7 +18,7 @@ import java.io.File;
  * A class that extends {@link JavaPlugin} that defines some extra things that are useful and/or consistent
  */
 @SuppressWarnings("SameParameterValue")
-public class ExtendedJavaPlugin extends JavaPlugin {
+public abstract class ExtendedJavaPlugin extends JavaPlugin {
     /**
      * This event bus allows listening to things from StarMCLib and adding custom support for events<br>
      * Override the {@link #createEventBus()} method to define a custom event bus instance
