@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.util.NumberConversions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class Position implements ConfigurationSerializable, Cloneable {
     }
     
     public int getBlockX() {
-        return (int) x;
+        return NumberConversions.floor(x);
     }
 
     public double getY() {
@@ -59,7 +60,7 @@ public class Position implements ConfigurationSerializable, Cloneable {
     }
     
     public int getBlockY() {
-        return (int) y;
+        return NumberConversions.floor(y);
     }
 
     public double getZ() {
@@ -67,7 +68,7 @@ public class Position implements ConfigurationSerializable, Cloneable {
     }
     
     public int getBlockZ() {
-        return (int) z;
+        return NumberConversions.floor(z);
     }
 
     public float getYaw() {
