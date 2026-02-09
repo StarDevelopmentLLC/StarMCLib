@@ -108,7 +108,7 @@ public abstract class ExtendedJavaPlugin extends JavaPlugin {
      * @param command The command
      * @param cmds    Any additional commands
      */
-    protected void registerCommand(StarCommand<?> command, StarCommand<?>... cmds) {
+    public void registerCommand(StarCommand<?> command, StarCommand<?>... cmds) {
         if (command != null) {
             command.register();
         }
@@ -128,7 +128,7 @@ public abstract class ExtendedJavaPlugin extends JavaPlugin {
      * @param tabExecutor The {@link TabExecutor} for the command
      * @see #registerCommand(String, CommandExecutor, TabCompleter)
      */
-    protected void registerCommand(String cmd, TabExecutor tabExecutor) {
+    public void registerCommand(String cmd, TabExecutor tabExecutor) {
         registerCommand(cmd, tabExecutor, tabExecutor);
     }
     
@@ -140,7 +140,7 @@ public abstract class ExtendedJavaPlugin extends JavaPlugin {
      * @param executor Te {@link CommandExecutor} for the command
      * @see #registerCommand(String, CommandExecutor, TabCompleter)
      */
-    protected void registerCommand(String cmd, CommandExecutor executor) {
+    public void registerCommand(String cmd, CommandExecutor executor) {
         registerCommand(cmd, executor, null);
     }
     
@@ -151,7 +151,7 @@ public abstract class ExtendedJavaPlugin extends JavaPlugin {
      * @param executor     The {@link CommandExecutor} for the command
      * @param tabCompleter The {@link TabCompleter} for the command. This can be null
      */
-    protected void registerCommand(String cmd, CommandExecutor executor, TabCompleter tabCompleter) {
+    public void registerCommand(String cmd, CommandExecutor executor, TabCompleter tabCompleter) {
         PluginCommand command = getCommand(cmd);
         if (command != null) {
             command.setExecutor(injector.inject(executor));
@@ -166,7 +166,7 @@ public abstract class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @param listeners The array of listeners
      */
-    protected void registerListeners(Listener... listeners) {
+    public void registerListeners(Listener... listeners) {
         if (listeners == null) {
             return;
         }
