@@ -2,16 +2,16 @@ package com.stardevllc.starmclib.command.params;
 
 import java.util.Map;
 
-public record ParamResult(String[] args, Map<Param, Object> flagValues) {
-    public boolean isPresent(Param flag) {
-        return flagValues.containsKey(flag);
+public record ParamResult(String[] args, Map<Param<?>, Object> paramValues) {
+    public boolean isPresent(Param<?> param) {
+        return paramValues.containsKey(param);
     }
     
     public void addFrom(ParamResult otherResults) {
-        flagValues.putAll(otherResults.flagValues);
+        paramValues.putAll(otherResults.paramValues);
     }
     
-    public Object getValue(Param flag) {
-        return flagValues.get(flag);
+    public <T> T getValue(Param<T> param) {
+        return (T) paramValues.get(param);
     }
 }
