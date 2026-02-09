@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.stardevllc'
-version = '0.13.1'
+version = '0.13.2'
 
 publishing {
     repositories {
