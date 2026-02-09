@@ -24,7 +24,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      * This event bus allows listening to things from StarMCLib and adding custom support for events<br>
      * Override the {@link #createEventBus()} method to define a custom event bus instance
      */
-    private IEventBus<?, Cancellable> eventBus;
+    private IEventBus<?> eventBus;
     
     /**
      * Defines an instance of {@link StarColorsV2} to be used by this plugin<br>
@@ -183,7 +183,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @return The event bus instance
      */
-    public IEventBus<?, ?> getEventBus() {
+    public IEventBus<?> getEventBus() {
         return eventBus;
     }
     
@@ -194,7 +194,7 @@ public class ExtendedJavaPlugin extends JavaPlugin {
      *
      * @return The new {@link IEventBus}
      */
-    protected IEventBus<?, Cancellable> createEventBus() {
+    protected IEventBus<?> createEventBus() {
         return new PluginEventBus<>(this);
     }
     

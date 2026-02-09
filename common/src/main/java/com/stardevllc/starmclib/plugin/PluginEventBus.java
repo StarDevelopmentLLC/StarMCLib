@@ -9,11 +9,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * An {@link IEventBus} that allows any object to be called
  * @param <P> The plugin type
  */
-public class PluginEventBus<P extends JavaPlugin> extends StarEventBus<Object, Cancellable> {
+public class PluginEventBus<P extends JavaPlugin> extends StarEventBus<Object> {
     protected final P plugin;
     
     public PluginEventBus(P plugin) {
-        super(Object.class, Cancellable.class, Cancellable::isCancelled);
+        super(Object.class);
+        this.addCancelHandler(Cancellable.class, Cancellable::isCancelled);
         this.plugin = plugin;
     }
     

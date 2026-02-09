@@ -18,10 +18,10 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 public final class StarMCLib {
-    public static final IEventBus<Object, Cancellable> GLOBAL_BUS = new StarEventBus<>();
+    public static final IEventBus<Object> GLOBAL_BUS = new StarEventBus<>();
     public static final FieldInjector GLOBAL_INJECTOR = FieldInjector.create();
     
-    private static final ObservableMap<String, IEventBus<?, Cancellable>> pluginEventBuses = new ObservableHashMap<>();
+    private static final ObservableMap<String, IEventBus<?>> pluginEventBuses = new ObservableHashMap<>();
     private static final ObservableMap<String, FieldInjector> pluginFieldInjectors = new ObservableHashMap<>();
     
     private static JavaPlugin plugin;
@@ -44,7 +44,7 @@ public final class StarMCLib {
         GLOBAL_INJECTOR.set(PotionNames.class, PotionNames.getInstance());
     }
     
-    public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?, Cancellable> eventBus) {
+    public static void registerPluginEventBus(JavaPlugin plugin, IEventBus<?> eventBus) {
         pluginEventBuses.put(plugin.getName(), eventBus);
         GLOBAL_BUS.addChildBus(eventBus);
         log("Registered " + plugin.getName() + "'s Plugin Event Bus");
@@ -72,7 +72,7 @@ public final class StarMCLib {
         return pluginFieldInjectors;
     }
     
-    public static ObservableMap<String, IEventBus<?, Cancellable>> getPluginEventBuses() {
+    public static ObservableMap<String, IEventBus<?>> getPluginEventBuses() {
         return pluginEventBuses;
     }
 }
