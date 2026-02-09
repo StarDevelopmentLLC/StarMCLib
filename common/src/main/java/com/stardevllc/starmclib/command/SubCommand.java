@@ -3,6 +3,7 @@ package com.stardevllc.starmclib.command;
 import com.stardevllc.starlib.objects.builder.IBuilder;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.command.flags.*;
+import com.stardevllc.starmclib.command.params.CmdParams;
 import com.stardevllc.starmclib.plugin.ExtendedJavaPlugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
@@ -44,6 +45,11 @@ public class SubCommand<T extends JavaPlugin> implements ICommand<T> {
     protected List<SubCommand<T>> subCommands = new ArrayList<>();
     
     protected CmdFlags cmdFlags = new CmdFlags();
+    
+    /**
+     * CmdParams should be parsed on an individual command basis in the handler method. Provided as a field for convenience
+     */
+    protected CmdParams cmdParams = new CmdParams();
     
     protected boolean playerOnly;
     protected boolean consoleOnly;
