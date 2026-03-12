@@ -1,16 +1,15 @@
 package com.stardevllc.starmclib;
 
 import com.stardevllc.smcversion.MinecraftVersion;
-import com.stardevllc.starlib.eventbus.IEventBus;
-import com.stardevllc.starlib.eventbus.impl.StarEventBus;
+import com.stardevllc.starlib.collections.observable.map.ObservableHashMap;
+import com.stardevllc.starlib.collections.observable.map.ObservableMap;
+import com.stardevllc.starlib.event.bus.IEventBus;
+import com.stardevllc.starlib.event.bus.impl.StarEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
-import com.stardevllc.starlib.observable.collections.map.ObservableHashMap;
-import com.stardevllc.starlib.observable.collections.map.ObservableMap;
 import com.stardevllc.starmclib.names.*;
 import com.stardevllc.starmclib.plugin.PluginEventBus;
 import com.stardevllc.starmclib.plugin.PluginFieldInjector;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;

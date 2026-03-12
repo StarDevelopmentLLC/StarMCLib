@@ -2,7 +2,7 @@ package com.stardevllc.starmclib.plugin;
 
 import com.stardevllc.config.file.FileConfig;
 import com.stardevllc.config.file.yaml.YamlConfig;
-import com.stardevllc.starlib.eventbus.IEventBus;
+import com.stardevllc.starlib.event.bus.IEventBus;
 import com.stardevllc.starlib.injector.FieldInjector;
 import com.stardevllc.starmclib.StarColorsV2;
 import com.stardevllc.starmclib.StarMCLib;

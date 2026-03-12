@@ -1,9 +1,9 @@
 package com.stardevllc.starmclib.mojang;
 
 import com.google.gson.*;
+import com.stardevllc.starlib.collections.observable.map.ObservableHashMap;
+import com.stardevllc.starlib.collections.observable.map.ObservableMap;
 import com.stardevllc.starlib.helper.StringHelper;
-import com.stardevllc.starlib.observable.collections.map.ObservableHashMap;
-import com.stardevllc.starlib.observable.collections.map.ObservableMap;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

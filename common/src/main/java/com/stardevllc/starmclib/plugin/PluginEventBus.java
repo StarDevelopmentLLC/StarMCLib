@@ -1,7 +1,7 @@
 package com.stardevllc.starmclib.plugin;
 
-import com.stardevllc.starlib.eventbus.IEventBus;
-import com.stardevllc.starlib.eventbus.impl.StarEventBus;
+import com.stardevllc.starlib.event.bus.IEventBus;
+import com.stardevllc.starlib.event.bus.impl.StarEventBus;
 import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.java.JavaPlugin;
 
